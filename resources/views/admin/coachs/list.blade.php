@@ -198,7 +198,11 @@
                     </h6>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                 @livewire('coachs.Addcoach', ['coach' => null]) 
+            {{--      @livewire('coachs.Addcoach', ['coach' => null]) 
+ --}}
+ <livewire:coachs.addcoach coach="{{ null }}" />
+
+
 
 
 
