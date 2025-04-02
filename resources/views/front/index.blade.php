@@ -10,6 +10,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
+
+<!-- Owl Carousel CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+
+
         @php
             $config = DB::table('configs')->first();
 
@@ -35,7 +41,7 @@
 
 <div id="rs-slider" class="rs-slider home-slider slider-navigation">
 
-    <div class="slider ">
+    <div class="slider owl-carousel owl-theme" >
        @foreach ($banners as $banner)
        <div class="single-slider slide2"
            style="background-image: url('{{ Storage::url($banner->image) }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
@@ -61,6 +67,26 @@
 
    </div>
 </div>
+
+<!-- jQuery (nécessaire pour Owl Carousel) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- Owl Carousel JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+        $(".owl-carousel").owlCarousel({
+            items: 1, // Afficher une seule image à la fois
+            loop: true, // Recommencer après la dernière image
+            autoplay: true, // Défilement automatique
+            autoplayTimeout: 4000, // 4 secondes avant changement
+            autoplayHoverPause: true, // Pause au survol
+            nav: true, // Flèches de navigation
+            dots: true, // Indicateurs
+        });
+    });
+</script>
+
      {{-- 
      <div id="rs-banner" class="rs-banner home5banner">
         <div class="container">
