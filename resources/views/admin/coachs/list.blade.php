@@ -200,9 +200,9 @@
                 </div>
             {{--      @livewire('coachs.Addcoach', ['coach' => null]) 
  --}}
- <livewire:coachs.addcoach coach="{{ null }}" />
+{{--  <livewire:coachs.addcoach coach="{{ null }}" />
 
-
+ --}}
 
 
 
