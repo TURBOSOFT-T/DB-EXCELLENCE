@@ -20,7 +20,7 @@
               </a>
             </div>
             <!-- /Logo -->
-            <h4 class="mb-1">Bienvenue sur Sport Divers! 👋</h4>
+            <h4 class="mb-1">Bienvenue sur BELLE 👋</h4>
           
             @if (session()->has('error'))
             <div class="alert alert-danger p-3 small">
