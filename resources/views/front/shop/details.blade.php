@@ -1,295 +1,260 @@
 @extends('front.fixe')
-@section('titre', $produit->name)
+@section('titre', $produit->nom)
 @section('body')
 
-@php
-    $config = DB::table('settings')->first();
+    <head>
+    @section('header')
+        <meta name="author" content="beautyars.shop">
+        <meta property="og:title" content="{{ $produit->nom }}">
+        <meta property="og:description" content="{{ $produit->description ?? '' }}">
+        <meta property="og:image" content="{{ $produit->photo }}">
+        <meta property="og:type" content="product">
+        <meta property="og:price:amount" content="{{ $produit->prix }} DT">
 
-@endphp
-    <main>
-        
-        <body class="rbt-header-sticky">
-        
-         
-          
-         
-            <a class="close_side_menu" href="javascript:void(0);"></a>
-        
-            <!-- Start breadcrumb Area -->
-            <div class="rbt-breadcrumb-default ptb--100 ptb_md--50 ptb_sm--30 bg-gradient-1">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="breadcrumb-inner text-center">
-                                <h2 class="title">Détails produit</h2>
-                                <ul class="page-list">
-                                    <li class="rbt-breadcrumb-item"><a href="index.html">Home</a></li>
-                                    <li>
-                                        <div class="icon-right"><i class="feather-chevron-right"></i></div>
-                                    </li>
-                                    <li class="rbt-breadcrumb-item active">Détails produit</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <meta property="og:availability" content="{{ $produit->statut }}">
+
+        <meta property="product:price:amount" content="{{ $produit->prix }} DT">
+
+        <meta property="product:availability" content="{{ $produit->statut }}">
+        <meta name="robots" content="index, follow">
+    @endsection
+    <link rel="stylesheet" href="path/to/zoom.css">
+<script src="path/to/zoom.js"></script>
+</head>
+
+<main>
+
+
+
+    <div id="content">
+        <div class="breadcrumb">
+            <div class="container">
+                <h2>Shop</h2>
+                <ul>
+                    <li>Home</li>
+                    <li>Shop</li>
+                    <li class="active">Détail sur le produit</li>
+                </ul>
             </div>
-            <!-- End Breadcrumb Area -->
-        
-            <div class="rbt-single-product-area rbt-single-product rbt-section-gap">
-                <div class="container">
-                    <div class="row g-5 row--30 align-items-center">
-                        <div class="col-lg-6">
-                            <div class="thumbnail">
-                                <img class="w-100 radius-10" src="{{ asset('storage/photos/' . $produit->image) }}"  alt="Product Images">
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="content">
-                                <div class="rbt-review justify-content-start">
-                                    <div class="rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                    </div>
-                                    <span class="rating-count">(75) - 100% Positive Reviews</span>
-                                </div>
-        
-                                <h2 class="title mt--10 mb--10">{{$produit->name ?? ''}}</h2>
-                                <span class="rbt-label-style description">By: Hal Elrod</span>
-        
-                                <div class="rbt-price justify-content-start mt--10">
-                                    <span class="current-price theme-gradient">$95.00</span>
-                                    <span class="off-price">$150.00</span>
-                                </div>
-        
-                                <p class="mt--20"> {{$produit->description ?? ''}}</p>
-        
-                                <div class="product-action mb--20">
-                                    <div class="pro-qty"><input type="text" value="1"></div>
-                                    <div class="addto-cart-btn">
-                                        <a class="rbt-btn btn-gradient hover-icon-reverse" onclick="AddToCart( {{ $produit->id }} )">
-                                            <span class="icon-reverse-wrapper">
-                                                <span class="btn-text">Ajouter au panier</span>
-                                            <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                                            <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                                            </span>
-                                        </a>
-                                    </div>
-                                </div>
-        
-                                <ul class="product-feature">
-                                    <li><span>SKU:</span> book-8</li>
-                                    <li><span>Categories: </span> <a href="#">Motivation</a></li>
-                                    <li><span>Tag: </span>
-                                        <a href="#">Book Store</a>
-                                        <a href="#">Self Development</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-        
-            <div class="rbt-product-description rbt-section-gapBottom bg-color-white">
-                <div class="container">
+        </div>
+        <div class="shop">
+            <div class="container">
+                <div class="product-detail__wrapper">
+                    @if($produit)
                     <div class="row">
-                        <div class="col-lg-8 offset-lg-2">
-                            <ul class="nav nav-tabs tab-button-style-2" id="myTab" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <a href="#" class="tab-button active" id="home-tab-4" data-bs-toggle="tab" data-bs-target="#home-4" role="tab" aria-controls="home-tab-4" aria-selected="true">
-                                        <span class="title">Description</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <a href="#" class="tab-button" id="profile-tab-4" data-bs-toggle="tab" data-bs-target="#profile-4" role="tab" aria-controls="profile-tab-4" aria-selected="false">
-                                        <span class="title">Reviews</span>
-                                    </a>
-                                </li>
-                            </ul>
-        
-                            <div class="tab-content" id="myTabContent">
-                                <div class="product-description-content tab-pane fade active show" id="home-4" role="tabpanel" aria-labelledby="home-tab-4">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                        exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                        Ut enim ad minim veniam, quis nostrud.</p>
-                                    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                                        fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa
-                                        qui officia deserunt mollit anim id est laborum. Stet clita kasd gubergren, no sea
-                                        takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet,
-                                        consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore.</p>
-                                </div>
-        
-                                <div class="product-description-content tab-pane fade" id="profile-4" role="tabpanel" aria-labelledby="profile-tab-4">
-        
-                                    <ul class="comment-list">
-                                        <!-- Start Single Comment  -->
-                                        <li class="comment">
-                                            <div class="comment-body">
-                                                <div class="single-comment">
-                                                    <div class="comment-img">
-                                                        <img src="/assets/images/testimonial/testimonial-1.jpg" alt="Author Images">
+                        <div class="col-12 col-md-6">
+                            <div class="product-detail__slide-two">
+                                <style>
+                                    .product-detail__slide-two__big {
+                                        position: relative;
+                                        overflow: hidden;
+                                    }
+                                
+                                    .product-detail__slide-two__big .slider__item img {
+                                        transition: transform 0.3s ease;
+                                    }
+                                
+                                    .product-detail__slide-two__big .slider__item:hover img {
+                                        transform: scale(1.2); /* Ajustez le facteur de zoom ici */
+                                    }
+                                </style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var zoom = new Zoom({
+            selector: '.product-detail__slide-two__big img',
+            zoom: 2, // Facteur de zoom
+            width: 300, // Largeur de l'image zoomée
+            height: 300 // Hauteur de l'image zoomée
+        });
+    });
+</script>
+
+                                <div class="product-detail__slide-two__big">
+                                    <div class="slider__item">
+                                        <img id="mainImage" src="{{ Storage::url($produit->photo) }}" width="200 " height="200 "
+                                            border-radius="8px" alt="Product image" />
+
+
+                                        <div class="top-left">
+                                            @if ($produit->inPromotion())
+                                                <span class="badge rounded-pill text-bg-danger">
+                                                    <div class="product-type">
+                                                        <h5 class="-sale">
+                                                            -{{ $produit->inPromotion()->pourcentage }}%
+                                                        </h5>
                                                     </div>
-                                                    <div class="comment-inner">
-                                                        <h6 class="commenter">
-                                                            <a href="#">Cameron Williamson</a>
-                                                        </h6>
-                                                        <div class="comment-meta">
-                                                            <div class="time-spent">Nov 23, 2018 at 12:23 pm</div>
-                                                        </div>
-                                                        <div class="rbt-review justify-content-start mb--20">
-                                                            <div class="rating">
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="comment-text">
-                                                            <p class="b2">Duis hendrerit velit scelerisque felis tempus, id
-                                                                porta
-                                                                libero venenatis. Nulla facilisi. Phasellus viverra
-                                                                magna commodo dui lacinia tempus. Donec malesuada nunc
-                                                                non dui posuere, fringilla vestibulum urna mollis.
-                                                                Integer condimentum ac sapien quis maximus. </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <!-- End Single Comment  -->
-        
-                                        <!-- Start Single Comment  -->
-                                        <li class="comment">
-                                            <div class="comment-body">
-                                                <div class="single-comment">
-                                                    <div class="comment-img">
-                                                        <img src="/assets/images/testimonial/testimonial-3.jpg" alt="Author Images">
-                                                    </div>
-                                                    <div class="comment-inner">
-                                                        <h6 class="commenter">
-                                                            <a href="#">Rafin Shuvo</a>
-                                                        </h6>
-                                                        <div class="comment-meta">
-                                                            <div class="time-spent">Nov 23, 2018 at 12:23 pm</div>
-                                                        </div>
-                                                        <div class="rbt-review justify-content-start mb--20">
-                                                            <div class="rating">
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star"></i>
-                                                                <i class="fas fa-star"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="comment-text">
-                                                            <p class="b2">Duis hendrerit velit scelerisque felis tempus, id
-                                                                porta
-                                                                libero venenatis. Nulla facilisi. Phasellus viverra
-                                                                magna commodo dui lacinia tempus. Donec malesuada nunc
-                                                                non dui posuere, fringilla vestibulum urna mollis.
-                                                                Integer condimentum ac sapien quis maximus. </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <!-- End Single Comment  -->
-                                    </ul>
-        
-                                    <!-- Start Product Comment Form  -->
-                                    <div class="rbt-comment-form mt--50 rbt-shadow-box">
-                                        <div class="comment-form-inner">
-                                            <h3 class="title">Add Review</h3>
-        
+
+                                                </span>
+                                            @endif
                                         </div>
-                                        <form class="comment-form-style-1 position-relative" action="#">
-                                            <p class="comment-note mb--20">Your email address will not be published. Required
-                                                fields are marked *</p>
-        
-                                            <div class="notification-text d-flex align-items-center mb--30">
-                                                <h6 class="mb--0 fontWeight600 title">Your Rating</h6>
-                                                <div class="rbt-review justify-content-start">
-                                                    <div class="rating">
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
-        
-                                            <div class="row row--10">
-                                                <div class="col-lg-4 col-md-4 col-12">
-                                                    <div class="form-group">
-                                                        <label for="name">Your Name</label>
-                                                        <input id="name" type="text">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 col-md-4 col-12">
-                                                    <div class="form-group">
-                                                        <label for="bl-email">Your Email</label>
-                                                        <input id="bl-email" type="email">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-4 col-md-4 col-12">
-                                                    <div class="form-group">
-                                                        <label for="website">Your Website</label>
-                                                        <input id="website" type="text">
-                                                    </div>
-                                                </div>
-                                                <div class="col-12">
-                                                    <div class="form-group">
-                                                        <label for="message">Leave a Reply</label>
-                                                        <textarea id="message" name="message"></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <p class="comment-form-cookies-consent mb--30">
-                                                        <input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes">
-                                                        <label for="wp-comment-cookies-consent">Save my name, email, and
-                                                            website in this browser for the next time I comment.</label>
-                                                    </p>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <button class="rbt-btn btn-gradient hover-icon-reverse">
-                                                        <span class="icon-reverse-wrapper">
-                                                            <span class="btn-text">Post Comment</span>
-                                                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                                                        <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                                                        </span>
-                                                    </button>
-                                                </div>
-                                            </div>
-        
-                                        </form>
-        
-        
+
                                     </div>
-                                    <!-- End Product Comment Form  -->
-        
-        
+                                </div>
+
+                                <div class="product-detail__slide-two__small" style="display: flex; gap: 10px; margin-top: 10px;">
+    
+                                    @foreach (json_decode($produit->photos) ?? [] as $image)
+                                        <div class="slider__item">
+                                            <img onclick="changeMainImage('{{ Storage::url($image) }}')" src="{{ Storage::url($image) }}" width="100" height="100" style="border-radius: 8px;" alt="Additional product image" />
+                                        </div>
+                                    @endforeach
+                                </div>
+                                <script>
+                                    function changeMainImage(imageUrl) {
+                                        document.getElementById('mainImage').src = imageUrl;
+                                    }
+                                </script>
+
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="product-detail__content">
+                                <div class="product-detail__content">
+                                    <div class="product-detail__content__header">
+
+                                        <h2>{{ $produit->nom }}</h2>
+                                    </div>
+                                    <div class="product-detail__content__header__comment-block">
+
+                                    </div>
+                                    <h3>
+                                        @if ($produit->inPromotion())
+                                            <div class="row">
+                                                <div class="col-sm-6">
+
+                                                    <b class="text-success" style="color: #4169E1">
+                                                        {{ $produit->getPrice() }} DT
+                                                    </b>
+                                                </div>
+                                                <div class="col-sm-2">
+
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <strike>
+
+
+                                                        <span class="text-danger small">
+                                                            {{ $produit->prix }}DT
+                                                        </span>
+
+
+                                                    </strike>
+                                                </div>
+                                            @else
+                                                {{ $produit->getPrice() }} DT
+                                        @endif
+                                    </h3>
+                                    <div class="divider"></div>
+                                    <div class="product-detail__content__footer">
+
+
+                                        <ul>
+                                            @if ($produit->stock > 0)
+                                                <label class="badge bg-success"> Stock disponible</label>
+                                            @else
+                                                <label class="badge bg-danger"> Stock non disponible</label>
+                                            @endif
+                                             
+                                            <li>Categorie:<span> {{ Str::limit($produit->categories->nom, 30) }}</span>
+                                            </li>
+                                        </ul>
+
+                                    </div>
+                                    <style>
+                                        input {
+
+                                            left: 10px;
+                                            top: 10px;
+                                            width: 50px;
+                                            height: 20px;
+
+                                            padding: 2px;
+                                            font-size: 12pt;
+                                            border: solid 0px #f7f4f4;
+                                            z-index: 1;
+                                            text-align: left;
+                                        }
+                                    </style>
+                                    <div class="product-detail__controller">
+                                        <div class="quantity-controller -border -round">
+                                            <div class="quantity-controller__btn -descrease tp-cart-minus">-</div>
+                                            <div class="quantity-controller__number">
+                                                <input type="text" value="1" id="qte-{{ $produit->id }}">
+
+                                            </div>
+                                            <div class="quantity-controller__btn -increase tp-cart-plus">+</div>
+                                        </div>
+                                        <div class="add-to-cart -dark">
+                                            <button type="button" class="btn -round -red"
+                                                onclick="AddToCart( {{ $produit->id }} )">
+                                                <i class="fas fa-shopping-bag"></i>
+                                            </button>
+                                            <h5>Ajouter au panier</h5>
+                                        </div>
+                                        <script>
+                                            $('.tp-cart-minus').on('click', function() {
+                                                var $input = $(this).parent().find('input');
+                                                var count = parseInt($input.val()) - 1;
+                                                count = count < 1 ? 1 : count;
+                                                $input.val(count);
+                                                $input.change();
+                                                return false;
+                                            });
+
+                                            $('.tp-cart-plus').on('click', function() {
+                                                var $input = $(this).parent().find('input');
+                                                $input.val(parseInt($input.val()) + 1);
+                                                $input.change();
+                                                return false;
+                                            });
+                                        </script>
+
+
+                                        <div class="product-detail__controler__actions"></div>
+                                        @if (Auth()->user())
+                                            <button type="button" class="btn -round -white"
+                                                onclick="AddFavoris({{ $produit->id }})">
+
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    fill="red" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                                    <path fill-rule="evenodd"
+                                                        d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314" />
+                                                </svg>
+
+                                            </button>
+                                        @endif
+
+
+
+                                    </div>
+                                    <div class="divider"></div>
+                                    <div class="product-detail__content__tab">
+                                        <ul class="tab-content__header">
+                                            <li class="tab-switcher" data-tab-index="0" tabindex="0">Description</li>
+
+                                        </ul>
+                                        <div id="allTabsContainer">
+                                            <div class="tab-content__item -description" data-tab-index="0">
+                                                <p>{{ $produit->description }}</p>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    @endif
+                  
                 </div>
             </div>
-        
-      
-        
-            <div class="rbt-separator-mid">
-                <div class="container">
-                    <hr class="rbt-separator m-0">
-                </div>
-            </div>
-      
-    </main>
+        </div>
+    </div>
+
+
+
+
+</main>
 @endsection

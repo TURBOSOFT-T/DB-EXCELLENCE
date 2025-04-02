@@ -28,8 +28,8 @@ function AddToCart(id) {
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
     var data = {
-        product_id: id,
-        quantity: quantity,
+        id_produit: id,
+        quantite: quantity,
         _token: csrfToken,
     };
     fetch("/client/ajouter_au_panier", {
@@ -61,7 +61,7 @@ function DeleteToCart(id) {
     $.get(
         "/client/delete_produit_au_panier",
         {
-            product_id: id,
+            id_produit: id,
         },
         function (data, status) {
             if (status) {
@@ -79,7 +79,7 @@ function DeleteToCart(id) {
 
 get_panier();
 
-function get_panier1() {
+function get_panier() {
     $.get("/client/count_panier", function (data, status) {
         if (status) {
            // console.log(data);
@@ -92,25 +92,12 @@ function get_panier1() {
     });
 }
 
-async function get_panier() {
-    try {
-        let response = await $.get("/client/count_panier");
-        $("#count-panier-span").text(response.total); // Nombre d'articles dans le panier
-        $("#list_content_panier").html(response.html); // Mise à jour du contenu du panier
-        $("#montant_total_panier").text(response.montant_total + " DT"); // Mise à jour du montant total
-    } catch (error) {
-        console.error("Erreur lors de la récupération du panier:", error);
-    }
-}
-$(document).ready(function() {
-    get_panier();
-});
 function AddFavoris(id) {
     var csrfToken = document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content");
     var data = {
-        product_id: id,
+        id_produit: id,
         _token: csrfToken,
     };
     fetch("/client/ajouter_favoris", {

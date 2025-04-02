@@ -2,7 +2,13 @@
 @section('titre', 'Mes Favoris')
 @section('body')
 
+<main>
+    <div class="breadcrumb">
+        <div class="container">
+            <h2>Mes favoris</h2>
 
+        </div>
+    </div>
     <div class="page-content-wrapper">
         <div class="page-content">
             <section class="cart-area pt-150 pb-150">
@@ -18,5 +24,5 @@
     </div>
 
 
-
+</main>
 @endsection

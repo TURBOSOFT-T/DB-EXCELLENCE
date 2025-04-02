@@ -5,59 +5,58 @@ namespace App\Http\Controllers;
 //require './vendor/autoload.php';
 
 
-use App\Models\{commandes,config, User,produits, Category, Post, Product, Setting};
+use App\Models\{commandes,config,Coach, User,produits, Category, Service,Marque, Video,Event, Sponsor,Image};
 use App\Models\Banners;
 use App\Models\templates;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
-use App\Repositories\ProduitRepository;
 use App\Http\Requests\Front\SearchRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\JsonResponse;
 
-use App\Repositories\PostRepository;
-use App\Http\Controllers\Controller;
-
 class HomeController extends Controller
 {
 
-    /**
-     * The PostRepository instance.
-     *
-     * @var \App\Repositories\PostRepository
-     */
-    protected $postRepository;
-
-    /**
-     * The pagination number.
-     *
-     * @var int
-     */
-    protected $nbrPages;
-
-    /**
-     * Create a new PostController instance.
-     *
-     * @param  \App\Repositories\PostRepository $postRepository
-     * @return void
-    */
-    public function __construct(PostRepository $postRepository)
-    {
-        $this->postRepository = $postRepository;
-        $this->nbrPages = config('app.nbrPages.posts');
-    }
-
-    public function home()
-    {
-      
-        $categories =Category::has('posts')->get();
-
-      return view('front.index' ,compact('categories'));
     
 
+    public function home(Request $request)
+    {
+        $key = $request->input("key", null);
+        if(!is_null($key)){
+            $produits->where('nom', 'like', '%'.$key.'%')
+            ->Orwhere('description', 'like', '%'.$key.'%');
+        }
+       $produits = produits::select('*')->latest()->take(20)->get();
+
+       $videos = Video::select('*')->latest()->take(20)->get();
+       $events = Event::select('*')->latest()->take(20)->get();
+       $images = Image::select('*')->latest()->take(20)->get();
+       $sponsors =Sponsor::select('*')->latest()->take(20)->get();
+       $coachs = Coach::select('*')->latest()->take(20)->get();
+
+       $latestVideos = Video::orderBy('created_at', 'desc')
+       ->take(20)
+       ->get();
+
+       $lastVideo = Video::latest()->take(1)->first();
+ 
+       $configs= config::all();
+       $banners = Banners::select("titre","sous_titre","image")->get();
+
+       $services = Service::all();
+      return view('front.index', compact('coachs','latestVideos','lastVideo','produits','configs','banners','services','key','videos','images','sponsors','events'));
+
     }
+     
+      public function detailsServices($id, $slug){
+        $service =Service:: findOrFail($id);
+        $configs= config::all();
+        $services = Service::all();
+        return view('front.services.details', compact('service','services','configs'));
+      }
+
 
     public function shop(Request $request){
         $key = $request->input("key", null);
@@ -65,189 +64,201 @@ class HomeController extends Controller
         $price_range = $request->input("price_range", null);
         $ordre_affichage = $request->input("ordre_affichage", null);
         
-        $produits = Product::query();
+        $produits = produits::query();
 
         if(!is_null($key)){
-            $produits->where('name', 'like', '%'.$key.'%')
+            $produits->where('nom', 'like', '%'.$key.'%')
             ->Orwhere('description', 'like', '%'.$key.'%');
         }
         if(!is_null($id_categorie)){
             $produits->where('category_id', $id_categorie);
         }
         if(!is_null($price_range)){
-            $produits->whereBetween('price', explode('-', $price_range));
+            $produits->whereBetween('prix', explode('-', $price_range));
         }
 
         if($request->sort_by == 'lowest_price'){
-            $$produits = Product::orderBy('price','asc')->get();
+            $$produits = produits::orderBy('prix','asc')->get();
         }
         if($request->sort_by == 'highest_price'){
-            $$produits = Product::orderBy('price','desc')->get();
+            $$produits = produits::orderBy('prix','desc')->get();
         }
         if(!is_null($ordre_affichage)){
             //if is not null will be Asc or Desc
-            $produits->orderBy('price', $ordre_affichage ? 'asc' : 'desc');
+            $produits->orderBy('prix', $ordre_affichage ? 'asc' : 'desc');
         }
         
 
-        $produits = $produits->paginate(16);
+        $produits = $produits->paginate(24);
         
-        $total_produit = Product::count();
-        $max_prix =Product::max('price');
+        $total_produit = produits::count();
+        $max_prix = produits::max('prix');
       // $categories = Category::with('produits')->get();
-   //   $categories =Category::has('produits')->get();
-
-    //  $lastproduits = produits::latest()->take(5)->get();
-
-      
+      $categories =Category::has('produits')->get();
     
    
-        $configs= Setting::all();
-        return view('front.shop.index',compact('produits', 'configs','key','total_produit','max_prix','ordre_affichage'));
+        $configs= config::all();
+        return view('front.shop.index',compact('produits', 'categories', 'configs','key','total_produit','max_prix','ordre_affichage'));
     }
 
-
-
-    public function blog(Request $request){
-        $key = $request->input("key", null);
-        $id_categorie = $request->get("category_id", null);
-        $price_range = $request->input("price_range", null);
-        $ordre_affichage = $request->input("ordre_affichage", null);
-        
-        $posts = Post::query();
-
-        if(!is_null($key)){
-            $posts->where('title', 'like', '%'.$key.'%')
-            ->Orwhere('description', 'like', '%'.$key.'%');
-        }
-        if(!is_null($id_categorie)){
-            $posts->where('category_id', $id_categorie);
-        }
-      
-        
-
-        $posts = $posts->orderBy('created_at', 'desc')
-        ->paginate(6);
-        $recentPosts = Post::latest()->take(5)->get();
-        
-        $total_post = Post::count();
-        $popularPosts = Post::select('posts.*')
-        ->selectSub(function ($query) {
-            $query->selectRaw('COUNT(comments.id)')
-                  ->from('comments')
-                  ->whereColumn('comments.post_id', 'posts.id');
-        }, 'comment_count')
-        ->orderBy('comment_count', 'desc')
-        ->limit(5)
-        ->get();
-
-        //$tags = Tag::all();
-        $recentPostsWithTags = Post::select('*')
-        ->latest()
-        ->take(3)
-        ->get();
-
-       // dd($total_post);
-       
-      
-      $categories =Category::has('posts')->get();
-
-      $search = $request->search;
-      $posts = Post::orderBy('created_at', 'desc')
-      ->where('title', 'like', '%'.$search.'%')
-      //  ->orWhere('body', 'like', '%'.$search.'%')
-        ->paginate(10);
-   /// $title = __('Produits nont trouvé avec la recherche: ') . '<strong>' . $search . '</strong>';
-    
-   
-    
-        return view('front.actualites.actualites',compact('recentPostsWithTags','posts', 'categories','key','total_post', 'recentPosts','popularPosts'));
-    }
-
-
-    public function posts($id)
+    public function search_products(Request $request)
     {
-        $categories = Category::with('posts')->get();
-        $current_category = Category::with('posts')->findOrFail($id);
-       // $posts = $current_category->posts;
-        $posts = $current_category->posts()->paginate(10);
-        $recentPosts = Post::latest()->take(10)->get();
-       // $products = $category->products()->paginate(10);
-        return view('front.actualites.actualites', compact('recentPosts','current_category', 'categories', 'posts'));
+        $all_products = produits::whereBetween('prix',[$request->left_value, $request->right_value])->get();
+        return view('front.shop.index',compact('all_products'))->render();
+    }
+
+    public function sort_by(Request $request)
+    {
+      
+        //$produits = produits::query();
+
+       
+        if($request->sort_by == 'lowest_price'){
+            $$produits = produits::orderBy('prix','asc')->get();
+        }
+        if($request->sort_by == 'highest_price'){
+            $$produits = produits::orderBy('prix','desc')->get();
+        }
+        
+       // $produits = $produits->paginate(24);
+       $categories =Category::has('produits')->get();
+    
+   
+       $configs= config::all();
+        $total_produit = produits::count();
+        $max_prix = produits::max('prix');
+      // $categories = Category::with('produits')->get();
+      $categories =Category::has('produits')->get();
+        return view('front.shop.index',compact('produits','categories', 'configs'))->render();
+
+    }
+
+
+    public function decroissant(){
+        $produits= produits:: select('*')
+        ->orderBy('prix','DESC')
+        ->get();
+      //  $categories = Category::with('produits')->get();
+      $categories =Category::has('produits')->get();
+        $configs= config::all();
+        return view('front.shop.index',compact('produits', 'categories','configs'));
+    }
+
+
+    public function croissant(){
+        $produits= produits:: select('*')
+        ->orderBy('prix','ASC')
+        ->get();
+      //  $categories = Category::with('produits')->get();
+      $categories =Category::has('produits')->get();
+        $configs= config::all();
+        return view('front.shop.index',compact('produits', 'categories','configs'));
+    }
+    
+
+
+
+
+
+
+
+    public function produits($id)
+    {
+        $categories = Category::with('produits')->get();
+        $current_category = Category::with('produits')->findOrFail($id);
+        $produits = $current_category->produits;
+
+        $marques = Marque::with('produits')->get();
+        $current_marque = Marque::with('produits')->findOrFail($id);
+        $produits = $current_marque->produits;
+        $users = User::all();
+
+        //dd($produits);
+        return view('front.shop.index', compact('current_category','current_marque','marques', 'users', 'categories', 'produits'));
     }
 
     public function details($id){
-     
-       $post = Post::with('comments')->findOrFail($id);
-    
-       $recentPosts = Post::latest()->take(10)->get();
-       $comments = $post->comments()->with('user')->paginate(10);
-   
-      
-        return view('front.actualites.details', compact('post', 'recentPosts', 'comments'));
+        $produit =produits:: findOrFail($id);
+        $configs= config::all();
+        return view('front.shop.details', compact('produit','configs'));
     }
-    public function detailsProduits($id){
-     
-        $produit = Product::findOrFail($id);
-     
-        
     
-       
-         return view('front.shop.details', compact('produit'));
-     }
-    public function searchs(SearchRequest $request)
+    public function products($id)
     {
-        $search = $request->search;
-        $total_post = Post::count();
-     //   $recentPosts = Post::latest()->take(5)->get();
-        $categories = Category::has('posts')->get();
-        $posts = Post::where('title', 'like', '%'.$search.'%')
-          //  ->orWhere('body', 'like', '%'.$search.'%')
-            ->paginate(10);
-        $title = __('Produits nont trouvé avec la recherche: ') . '<strong>' . $search . '</strong>';
-     
-        return view('front.actualites.actualites', compact('total_post','posts', 'title','categories'));
-    }
-    
-    public function show(Request $request, $slug)
-    {
-        $post = $this->postRepository->getPostBySlug($slug);
-        
-       $recentPosts = Post::latest()->take(5)->get();
-      // $comments = $post->comments()->with('user')->paginate(10);
-      
- 
-        return view('front.actualites.details', compact('post', 'recentPosts'));
+        $categories = Category::with('produits')->get();
+        $current_category = Category::with('produits')->findOrFail($id);
+        $produits = $current_category->produits;
+        $users = User::all();  
+        return view('front.shop.index', compact('current_category','marques', 'users', 'categories', 'produits'));
     }
 
 
- 
 
-    
     ///////////Login///////////////////////////////////////////////////
     public function login()
     {
         return view('auth.login');
     }
-
-    
    
 
+    public function Not_Autorized(){
+        $template = templates::where('meta_error',true)->first();
+        $meta = $template->meta ?? "";
+        return view("front.Not_Autorized", compact("meta"));
+    }
 
-    public function register()
+    public function voir_template($slug)
     {
-        return view('auth.register');
+        $template = templates::where('reference', $slug)->first();
+        if ($template) {
+            $code = Storage::get($template->code);
+            return view("front.template", compact("template","code"));
+        } else {
+            abort(404, "template introuvable");
+        }
+    }
+
+    public function print_commande($id)
+    {
+        $commande = commandes::find($id);
+        if (!$commande) {
+            abort('404');
+        }
+
+        $pdf = PDF::loadView('pdf.commande', compact('commande'));
+        return $pdf->download("Facture-#" . $commande->id . ".pdf");
     }
 
 
-    public function contact()
+    public function print_bordereau(Request $request)
     {
-        return view('front.contact.contact');
+        $ids = json_decode($request->get('ids'));
+        $pdf = PDF::loadView('pdf.bordereau', compact("ids"));
+        return $pdf->download("bordereau.pdf");
     }
- public function about(){
-    return view('front.about.about');
- }
-    
+
+
+
+    public function logout()
+    {
+        auth()->logout();
+        return redirect()->route('home');
+    }
+
+
+    public function inscription()
+    {
+        return view('front.inscription');
+    }
+
+
+    public function confirmation(Request $request){
+        $produit = null;
+        if ($request->session()->has('produit')) {
+            $produit = Session::get('produit');
+        }
+        return view('front.confirmation',compact("produit"));
+    }
 
 
 }

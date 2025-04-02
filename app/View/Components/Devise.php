@@ -21,8 +21,7 @@ class Devise extends Component
      */
     public function render(): View|Closure|string
     {
-        $devise = "€";
-        
+        $devise = "DT";
         return view('components.devise', ['devise' => $devise]);
     }
 }

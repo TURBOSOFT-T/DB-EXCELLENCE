@@ -1,30 +1,4 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Table pagination: active page highlight */
-.mary-table-pagination span[aria-current="page"] > span {
-    @apply bg-primary text-base-100
-}
-
-/* Table pagination: for dark mode*/
-.mary-table-pagination span[aria-disabled="true"] span {
-    @apply bg-inherit
-}
-
-/* Table pagination: for dark mode */
-.mary-table-pagination button {
-    @apply bg-base-100
-}
-
-.pop-small {
-    @apply !p-1 !px-2 text-sm border-info text-center
-}
-/* Small popover */
-.pop-small {
-    @apply !p-1 !px-2 text-sm border-info
-}
-html {
-    scroll-behavior: smooth;
-}
-
+@import '~flag-icon-css/css/flag-icon.css';

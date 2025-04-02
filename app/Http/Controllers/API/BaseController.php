@@ -7,11 +7,7 @@ use App\Http\Controllers\Controller;
 
 class BaseController extends Controller
 {
-    /**
-     * success response method.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function getResponse($data, $message)
     {
     	$response = [
@@ -22,11 +18,7 @@ class BaseController extends Controller
         return response()->json($response, Response::HTTP_OK);
     }
 
-     /**
-     * success response method.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
     public function sendResponse($data, $message)
     {
     	$response = [
@@ -37,11 +29,7 @@ class BaseController extends Controller
         return response()->json($response, Response::HTTP_CREATED);
     }
 
-    /**
-     * return error response.
-     *
-     * @return \Illuminate\Http\Response
-     */
+  
     public function sendError($message)
     {
     	$response = [
@@ -51,11 +39,7 @@ class BaseController extends Controller
         return response()->json($response, Response::HTTP_UNAUTHORIZED);
     }
 
-     /**
-     * return error response.
-     *
-     * @return \Illuminate\Http\Response
-     */
+   
     public function getError($message)
     {
     	$response = [

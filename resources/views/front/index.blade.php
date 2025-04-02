@@ -2,509 +2,561 @@
 @section('titre', 'Accueil')
 @section('body')
     <main>
+     <!-- Owl Carousel CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
 
-      
+<!-- Owl Carousel JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
-<!DOCTYPE html>
-<html lang="en">
+        @php
+            $config = DB::table('configs')->first();
 
+        @endphp
+        <style>
+            .slide2 {
+                background-size: cover;
 
-<body class="rbt-header-sticky">
+                background-position: center;
 
- 
-    <!-- Start Banner Area -->
-    <div class="rbt-banner-5 height-650 bg_image bg_image--19">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="inner text-start">
-                        <h2 class="title"><span class="text-decoration-underline">Histudy</span> Starter is a community for creative people</h2>
-                        <p class="description">We just don't give our student only lecture but real life
-                            experience.</p>
-                        <div class="slider-btn rbt-button-group justify-content-start">
-                            <a class="rbt-btn btn-border icon-hover color-white radius-round" href="#">
-                                <span class="btn-text">Explore Courses</span>
-                                <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                            </a>
-                            <a class="rbt-btn-link color-white" href="#">Start learning<i class="feather-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- End Banner Area -->
+                background-repeat: no-repeat;
 
+            }
+        </style>
 
-    <!-- Start category Area  -->
-    <div class="rbt-category-area bg-color-white rbt-section-gapTop">
-        <div class="container">
-            <div class="row g-5">
-                <!-- Start Category Box Layout  -->
-                @foreach ($categories as $category)
-                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <a class="rbt-cat-box rbt-cat-box-1 image-overlaping-content on-hover-content-visible" href="course-filter-one-toggle.html">
-                        <div class="inner">
-                            <div class="thumbnail">
-                                <img src="assets/images/category/image/web-design.jpg" alt="Icons Images">
-                            </div>
-                            <div class="content">
-                                <h5 class="title">{{$category->title ?? ''}}</h5>
-                                <div class="read-more-btn">
-                                    <span class="rbt-btn-link">15 Courses<i class="feather-arrow-right"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                @endforeach
-                <!-- End Category Box Layout  -->
-             
+        <style>
             
-                <!-- Start Category Box Layout  -->
-                <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                    <a class="rbt-cat-box rbt-cat-box-1 image-overlaping-content on-hover-content-visible" href="course-filter-one-toggle.html">
-                        <div class="inner">
-                            <div class="thumbnail">
-                                <img src="assets/images/category/image/finance.jpg" alt="Icons Images">
-                            </div>
-                            <div class="content">
-                                <h5 class="title">Finance & Accounting</h5>
-                                <div class="read-more-btn">
-                                    <span class="rbt-btn-link">15 Courses<i class="feather-arrow-right"></i></span>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <!-- End Category Box Layout  -->
-            </div>
-        </div>
-    </div>
-    <!-- End category Area  -->
+.rs-banner.home5banner {
+    background-image: url('{{ asset('assets/contact/1.png') }}');
 
-    <!-- Start Featured Course Area  -->
-    <div class="rbt-featured-course bg-color-white rbt-section-gap">
-        <div class="container">
-            <div class="row g-5 align-items-end mb--60">
-                <div class="col-lg-6 col-md-12 col-12">
-                    <div class="section-title text-start">
-                        <h2 class="title">Featured Courses</h2>
-                        <p class="description mt--20">Learning communicate to global world and build a bright future and career development, increase your skill with our histudy.</p>
+}
+        </style>
+
+<div id="rs-slider" class="rs-slider home-slider slider-navigation">
+
+    <div class="slider-carousel owl-carousel">
+        @foreach ($banners as $banner)
+        <div class="single-slider slide2"
+            style="background-image: url('{{ Storage::url($banner->image) }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+            <div class="container">
+                <div class="image-part common">
+                    {{-- <div class="image-wrap">
+                        <img class="player animate5" src="{{ Storage::url($banner->image) }}" alt="">
+                        <img class="ball animate6" src="{{ Storage::url($banner->image) }}" alt="">
+                    </div> --}}
+                </div>
+                <div class="text-part common">
+                    <h2 class="sub-title"> {{ $banner->titre ?? '' }}</h2>
+                    <h1 class="title"><span class="primary-color">Sport</span> Divers</h1>
+                    <div class="desc"> <br> {{ $banner->sous_titre ?? '' }}</div>
+                    <div class="slider-btn">
+                        <a class="readon" href="{{ route('contact') }}">Contactez nous</a>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-12 col-12">
-                    <div class="load-more-btn text-start text-lg-end">
-                        <a class="rbt-btn btn-border icon-hover radius-round" href="#">
-                            <span class="btn-text">Browse Histudy Courses</span>
-                            <span class="btn-icon"><i class="feather-arrow-right"></i></span>
+            </div>
+        </div>
+        @endforeach
+
+    </div>
+</div>
+     {{-- 
+     <div id="rs-banner" class="rs-banner home5banner">
+        <div class="container">
+            <div id="rs-banner-slide"> 
+                @foreach($banners as $banner) 
+                <div class="item" style="background-image: url('{{ asset('storage/' . $banner->image) }}'); background-size:cover; background-position: center; width: 800px; height: 800px;">
+    
+                    <div class="bl-meta">
+                        <span class="cat"><a href="#">{{ $banner->titre }}</a></span>
+                      
+                    </div>
+                    <div class="heading-block pb-25">
+                        <h4 class="feature-title"><a href="#">{{ $banner->sous_titre }}</a></h4>
+                    </div>
+                </div>
+                @endforeach
+              
+            </div>
+        </div>
+    </div> --}}
+    
+        <!-- Slider Section Start -->
+       {{--   <div id="rs-slider" class="rs-slider home-slider slider-navigation">
+
+            <div class="slider-carousel owl-carousel">
+                @foreach ($banners as $banner)
+                    <div class="single-slider slide2"
+                        style="background-image: url('{{ Storage::url($banner->image) }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+                        <div class="container">
+                            <div class="image-part common">
+                                <div class="image-wrap">
+                                    <img class="player animate5" src="{{ Storage::url($banner->image) }}" alt="">
+                                    <img class="ball animate6" src="{{ Storage::url($banner->image) }}" alt="">
+                                </div>
+                            </div>
+                            <div class="text-part common">
+                                <h2 class="sub-title"> {{ $banner->titre ?? '' }}</h2>
+                                <h1 class="title"><span class="primary-color">Sport</span> Divers</h1>
+                                <div class="desc"> <br> {{ $banner->sous_titre ?? '' }}</div>
+                                <div class="slider-btn">
+                                    <a class="readon" href="{{ route('contact') }}">Contactez nous</a>
+                                </div>
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselExample" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Précédent</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExample" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Suivant</span>
+                            </a>
+                        </div>
+                    </div>
+                @endforeach
+
+            </div>
+        </div>  --}}
+        <!-- Slider Section End -->
+
+
+        <!-- About Us Section Start -->
+        <div class="rs-about pt-92 pb-78 md-pt-64 md-pb-58">
+            <div class="container">
+                <div class="row rs-vertical-middle">
+                    <div class="col-lg-5 pl-40 col-padding-md md-mb-25">
+                        <div class="contant-part">
+                            <div class="title-style mb-14">
+                                <div class="sub-title black-color mb-10"></div>
+                                <h2 class="margin-0 uppercase">{{ $config->titre_apropos }}</h2>
+                            </div>
+                            <div class="description">
+                                {{ $config->des_apropos }}
+                            </div>
+                            <div class="read-btn mt-39">
+                                <a class="readon" href="{{ route('contact') }}">Contact</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 margin-0 pl-50 col-padding-md">
+                        <div id="carouselExample" class="carousel slide" data-ride="carousel" data-interval="3000">
+                            <div class="carousel-inner">
+                                @if ($config && $config->photos)
+                                    @foreach (json_decode($config->photos, true) as $index => $photo)
+                                        <div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+                                            <img src="{{ Storage::url($photo) }}" class="d-block " alt="Image">
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="carousel-item active">
+                                        <p class="text-center">Aucune image disponible</p>
+                                    </div>
+                                @endif
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselExample" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Précédent</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExample" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Suivant</span>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- About Us Section End -->
+        <!-- About Us Section End -->
+        <!-- Upcomming Match & Video Section Start -->
+        <div class="couter-and-upcomming pt-100 md-pt-80 mb-30">
+            <div class="container">
+
+                <div class="row">
+
+
+                    <style>
+                        .rs-upcoming-match.bg1 {
+                            background-image: url('{{ Storage::url($lastVideo->image ?? ' ') }}');
+                            background-size: cover;
+                            background-position: center;
+                            background-repeat: no-repeat;
+
+                        }
+                    </style>
+                    <div class="col-lg-4 pr-0 col-padding-md md-mb-30">
+                        <div class="rs-upcoming-match bg1 text-center">
+                            <div class="title-style">
+                                <h4 class="margin-0 white-color">Evènement à venir</h4>
+                                <span class="line-bg pt-18 y-w"></span>
+                            </div>
+
+                            <div class="teams mt-25 md-mt-50">
+                                <div class="row rs-vertical-middle">
+                                    <div class="col-md-4 col-sm-4 col-4">
+                                        <div class="team-logo">
+                                            <img class="size-80" src="{{ Storage::url($lastVideo->image ?? ' ') }}"
+                                                alt="Valencia">
+                                            <div class="name white-color">{{ $lastVideo->titre ?? '' }}</div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-lg-8 pl-30 col-padding-md">
+                        <div class="rs-video rs-upcoming-match big-space bg1 bdru-4 text-center">
+                            <div class="video-contents">
+                                <a class="popup-videos play-btn"
+                                    onclick="playVideoInSmallPlayer('{{ Storage::url($lastVideo->video ?? '') }}')"><i
+                                        class="fa fa-play"></i></a>
+                                <h3 class="title white-color mt-18 mb-0">{{ $lastVideo->tittre ?? '' }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Petit Lecteur Vidéo Fixe -->
+        <div id="smallVideoPlayer" class="small-video-player">
+            <video id="smallVideo" controls></video>
+            <button class="close-btn" onclick="closeSmallVideoPlayer()">X</button>
+        </div>
+
+        <script>
+            function playVideoInSmallPlayer(videoUrl) {
+                var player = document.getElementById('smallVideoPlayer');
+                var video = document.getElementById('smallVideo');
+                video.src = videoUrl;
+                player.style.display = 'block';
+
+
+                fetch(`/video/view/${videoId}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}' // Ensure CSRF protection
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Update the view count on the page
+                        document.getElementById(`views-${videoId}`).innerText = data.views + ' vues';
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+
+
+
+            function closeSmallVideoPlayer() {
+                var player = document.getElementById('smallVideoPlayer');
+                var video = document.getElementById('smallVideo');
+                video.pause();
+                video.src = '';
+                player.style.display = 'none';
+            }
+        </script>
+
+        <style>
+            .small-video-player {
+                display: none;
+                position: fixed;
+                bottom: 20px;
+                width: 500px;
+                /* Augmentation de la largeur */
+                height: 300px;
+                /* Augmentation de la hauteur */
+                right: 20px;
+                width: 300px;
+                background-color: #000;
+                border-radius: 10px;
+                overflow: hidden;
+                z-index: 1000;
+            }
+
+            .small-video-player video {
+                width: 100%;
+                height: 100%;
+                /* S'assurer que la vidéo occupe toute la hauteur du lecteur */
+            }
+
+            .small-video-player .close-btn {
+                position: absolute;
+                top: 5px;
+                right: 5px;
+                background-color: red;
+                color: white;
+                border: none;
+                border-radius: 50%;
+                cursor: pointer;
+                width: 30px;
+                height: 30px;
+                text-align: center;
+                line-height: 25px;
+            }
+        </style>
+
+        <!-- Match Result Section Start -->
+        <div class="rs-match-result style1 nav-style pb-100 md-pb-80">
+
+            <style>
+                .rs-carousel .owl-item {
+                    margin-right: 0px;
+                    /* Ajustez cette valeur selon vos besoins */
+                    padding: 0;
+                }
+
+                .rs-carousel .items {
+                    padding: 0;
+                    margin: 0;
+                }
+            </style>
+            <br><br>
+
+
+            <div class="rs-match-result style1 nav-style pb-100 md-pb-80">
+                <div class="container">
+                    <div class="rs-carousel owl-carousel" data-loop="true" data-items="3" data-margin="30"
+                        data-autoplay="true" data-autoplay-timeout="8000" data-smart-speed="2000" data-dots="false"
+                        data-nav="true" data-nav-speed="false" data-mobile-device="1" data-mobile-device-nav="false"
+                        data-mobile-device-dots="false" data-ipad-device="2" data-ipad-device-nav="false"
+                        data-ipad-device-dots="false" data-ipad-device2="1" data-ipad-device-nav2="false"
+                        data-ipad-device-dots2="false" data-md-device="3" data-md-device-nav="true"
+                        data-md-device-dots="false">
+                        @foreach ($latestVideos as $latestVideo)
+                            {{--  <div class="rs-video big-space  bdru-4 text-center" style="background-image: url('{{ Storage::url($latestVideo->image ?? '') }}'); background-size: cover; background-position: center; width: 300px; height: 200px; padding: 0px;">
+                    <div class="video-contents">
+                        <a class="popup-videos play-btn"
+                            onclick="playVideoInSmallPlayer('{{ Storage::url($latestVideo->video ?? '') }}')">
+                            <i class="fa fa-play"></i>
                         </a>
+                        <h3 class="title white-color mt-18 mb-0">{{ $latestVideo->titre ?? '' }}</h3>
                     </div>
-                </div>
-            </div>
+                </div> --}}
+                            <div class="rs-video   bdru-4 text-center p-10"
+                                style="background-image: url('{{ Storage::url($latestVideo->image ?? '') }}'); background-size: cover; background-position: center; width: 400px; height: 300px; padding: 0px;">
 
-            <!-- Start Card Area -->
-            <div class="row g-5">
-                <!-- Start Single Card  -->
-                @foreach ($produits as $produit)
-             
-                <div class="col-lg-4 col-md-6 col-sm-12 col-12" data-sal-delay="150" data-sal="slide-up" data-sal-duration="800">
-                    <div class="rbt-card variation-01 rbt-hover">
-                        <div class="rbt-card-img">
-                            <a  href="{{ route('details-produits', ['id' => $produit->id, 'slug' => Str::slug(Str::limit($produit->name, 10))]) }}">
-                                <img src="{{ asset('storage/photos/' . $produit->image) }}" alt="Card image">
-                                <div class="rbt-badge-3 bg-white">
-                                    <span>-40%</span>
-                                    <span>Off</span>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="rbt-card-body">
-                            <div class="rbt-card-top">
-                                <div class="rbt-review">
-                                    <div class="rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                    </div>
-                                    <span class="rating-count"> (15 Reviews)</span>
-                                </div>
-                                <div class="rbt-bookmark-btn">
-                                    <a class="rbt-round-btn" title="Bookmark" href="#"><i
-                                            class="feather-bookmark"></i></a>
+                                <div class="video-contents">
+                                    <a class="popup-videos play-btn"
+                                        onclick="playVideoInSmallPlayer('{{ Storage::url($latestVideo->video ?? '') }}')">
+                                        <i class="fa fa-play"></i>
+                                    </a>
+                                    <h3 class="title white-color">{{ $latestVideo->titre ?? '' }}</h3>
                                 </div>
                             </div>
 
-                            <h4 class="rbt-card-title"><a
-                                
-                                 href="{{ route('details-produits', ['id' => $produit->id, 'slug' => Str::slug(Str::limit($produit->name, 10))]) }}"
-                                >{{$produit->name ?? ''}}</a>
-                            </h4>
-
-                           
-
-                        
-                        
-                            <div class="rbt-card-bottom">
-                                <div class="rbt-price">
-                                    <span class="current-price">$60</span>
-                                    <span class="off-price">$120</span>
-                                </div>
-                                <a class="rbt-btn-link"  href="{{ route('details-produits', ['id' => $produit->id, 'slug' => Str::slug(Str::limit($produit->name, 10))]) }}">Voir détails
-                                    <i class="feather-arrow-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-                <!-- End Single Card  -->
-
-         
-          
-            </div>
-            <!-- End Card Area -->
-        </div>
-    </div>
-    <!-- End Featured Course Area  -->
+                          
 
 
-    <div class="rbt-counterup-area bg_image bg_image_fixed bg_image--20 ptb--170 bg-black-overlay" data-black-overlay="2">
-        <div class="conter-style-2">
-            <div class="container">
-                <div class="row g-5">
-                    <!-- Start Single Counter  -->
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 single-counter">
-                        <div class="rbt-counterup style-2">
-                            <div class="inner">
-                                <div class="content">
-                                    <h3 class="counter"><span class="odometer" data-count="500">00</span>
-                                    </h3>
-                                    <span class="subtitle">Learners &amp; counting</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Counter  -->
-
-                    <!-- Start Single Counter  -->
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 single-counter">
-                        <div class="rbt-counterup style-2">
-                            <div class="inner">
-                                <div class="content">
-                                    <h3 class="counter"><span class="odometer" data-count="800">00</span>
-                                    </h3>
-                                    <span class="subtitle">Courses & Video</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Counter  -->
-
-                    <!-- Start Single Counter  -->
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 single-counter">
-                        <div class="rbt-counterup style-2">
-                            <div class="inner">
-                                <div class="content">
-                                    <h3 class="counter"><span class="odometer" data-count="1000">00</span>
-                                    </h3>
-                                    <span class="subtitle">Certified Students</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Counter  -->
-
-                    <!-- Start Single Counter  -->
-                    <div class="col-lg-3 col-md-6 col-sm-6 col-12 single-counter">
-                        <div class="rbt-counterup style-2">
-                            <div class="inner">
-                                <div class="content">
-                                    <h3 class="counter"><span class="odometer" data-count="100">00</span>
-                                    </h3>
-                                    <span class="subtitle">Certified Students</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Counter  -->
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="rbt-testimonial-area bg-color-extra2 rbt-section-gap">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 mb--60">
-                    <div class="section-title text-center">
-                        <h2 class="title">Student's Feedback</h2>
-                        <p class="description mt--20">Learning communicate to global world and build a bright future and career development, increase your skill with our histudy.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="testimonial-item-3-activation swiper rbt-arrow-between gutter-swiper-30">
-                <div class="swiper-wrapper">
-
-                    <!-- Start Single Testimonial  -->
-                    <div class="swiper-slide">
-                        <div class="single-slide">
-                            <div class="rbt-testimonial-box">
-                                <div class="inner bg-no-shadow bg-color-primary-opacity">
-                                    <div class="clint-info-wrapper">
-                                        <div class="thumb">
-                                            <img src="assets/images/testimonial/client-01.png" alt="Clint Images">
-                                        </div>
-                                        <div class="client-info">
-                                            <h5 class="title">Martha Maldonado</h5>
-                                            <span>Executive Chairman <i>@ Google</i></span>
-                                        </div>
-                                    </div>
-                                    <div class="description">
-                                        <p class="subtitle-3">After the launch, vulputate at sapien sit amet,
-                                            auctor iaculis lorem. In vel hend rerit nisi. Vestibulum eget risus velit.</p>
-                                        <div class="rating mt--20">
-                                            <a href="#"><i class="fa fa-star"></i></a>
-                                            <a href="#"><i class="fa fa-star"></i></a>
-                                            <a href="#"><i class="fa fa-star"></i></a>
-                                            <a href="#"><i class="fa fa-star"></i></a>
-                                            <a href="#"><i class="fa fa-star"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Testimonial  -->
-
-                    <!-- Start Single Testimonial  -->
-                    <div class="swiper-slide">
-                        <div class="single-slide">
-                            <div class="rbt-testimonial-box">
-                                <div class="inner bg-no-shadow bg-color-primary-opacity">
-                                    <div class="clint-info-wrapper">
-                                        <div class="thumb">
-                                            <img src="assets/images/testimonial/client-02.png" alt="Clint Images">
-                                        </div>
-                                        <div class="client-info">
-                                            <h5 class="title">Michael D. Lovelady</h5>
-                                            <span>CEO <i>@ Google</i></span>
-                                        </div>
-                                    </div>
-                                    <div class="description">
-                                        <p class="subtitle-3">Histudy education, vulputate at sapien sit amet,
-                                            auctor iaculis lorem. In vel hend rerit nisi. Vestibulum eget.</p>
-                                        <div class="rating mt--20">
-                                            <a href="#"><i class="fa fa-star"></i></a>
-                                            <a href="#"><i class="fa fa-star"></i></a>
-                                            <a href="#"><i class="fa fa-star"></i></a>
-                                            <a href="#"><i class="fa fa-star"></i></a>
-                                            <a href="#"><i class="fa fa-star"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Testimonial  -->
-
-                    <!-- Start Single Testimonial  -->
-                    <div class="swiper-slide">
-                        <div class="single-slide">
-                            <div class="rbt-testimonial-box">
-                                <div class="inner bg-no-shadow bg-color-primary-opacity">
-                                    <div class="clint-info-wrapper">
-                                        <div class="thumb">
-                                            <img src="assets/images/testimonial/client-03.png" alt="Clint Images">
-                                        </div>
-                                        <div class="client-info">
-                                            <h5 class="title">Valerie J. Creasman</h5>
-                                            <span>Executive Designer <i>@ Google</i></span>
-                                        </div>
-                                    </div>
-                                    <div class="description">
-                                        <p class="subtitle-3">Our educational, vulputate at sapien sit amet,
-                                            auctor iaculis lorem. In vel hend rerit nisi. Vestibulum eget.</p>
-                                        <div class="rating mt--20">
-                                            <a href="#"><i class="fa fa-star"></i></a>
-                                            <a href="#"><i class="fa fa-star"></i></a>
-                                            <a href="#"><i class="fa fa-star"></i></a>
-                                            <a href="#"><i class="fa fa-star"></i></a>
-                                            <a href="#"><i class="fa fa-star"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Testimonial  -->
-
-                    <!-- Start Single Testimonial  -->
-                    <div class="swiper-slide">
-                        <div class="single-slide">
-                            <div class="rbt-testimonial-box">
-                                <div class="inner bg-no-shadow bg-color-primary-opacity">
-                                    <div class="clint-info-wrapper">
-                                        <div class="thumb">
-                                            <img src="assets/images/testimonial/client-03.png" alt="Clint Images">
-                                        </div>
-                                        <div class="client-info">
-                                            <h5 class="title">Valerie J. Creasman</h5>
-                                            <span>Executive Designer <i>@ Google</i></span>
-                                        </div>
-                                    </div>
-                                    <div class="description">
-                                        <p class="subtitle-3">Our educational, vulputate at sapien sit amet,
-                                            auctor iaculis lorem. In vel hend rerit nisi. Vestibulum eget.</p>
-                                        <div class="rating mt--20">
-                                            <a href="#"><i class="fa fa-star"></i></a>
-                                            <a href="#"><i class="fa fa-star"></i></a>
-                                            <a href="#"><i class="fa fa-star"></i></a>
-                                            <a href="#"><i class="fa fa-star"></i></a>
-                                            <a href="#"><i class="fa fa-star"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Testimonial  -->
-
-                    <!-- Start Single Testimonial  -->
-                    <div class="swiper-slide">
-                        <div class="single-slide">
-                            <div class="rbt-testimonial-box">
-                                <div class="inner bg-no-shadow bg-color-primary-opacity">
-                                    <div class="clint-info-wrapper">
-                                        <div class="thumb">
-                                            <img src="assets/images/testimonial/client-03.png" alt="Clint Images">
-                                        </div>
-                                        <div class="client-info">
-                                            <h5 class="title">Valerie J. Creasman</h5>
-                                            <span>Executive Designer <i>@ Google</i></span>
-                                        </div>
-                                    </div>
-                                    <div class="description">
-                                        <p class="subtitle-3">Our educational, vulputate at sapien sit amet,
-                                            auctor iaculis lorem. In vel hend rerit nisi. Vestibulum eget.</p>
-                                        <div class="rating mt--20">
-                                            <a href="#"><i class="fa fa-star"></i></a>
-                                            <a href="#"><i class="fa fa-star"></i></a>
-                                            <a href="#"><i class="fa fa-star"></i></a>
-                                            <a href="#"><i class="fa fa-star"></i></a>
-                                            <a href="#"><i class="fa fa-star"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single Testimonial  -->
-                </div>
-
-                <div class="rbt-swiper-arrow rbt-arrow-left">
-                    <div class="custom-overfolow">
-                        <i class="rbt-icon feather-arrow-left"></i>
-                        <i class="rbt-icon-top feather-arrow-left"></i>
-                    </div>
-                </div>
-
-                <div class="rbt-swiper-arrow rbt-arrow-right">
-                    <div class="custom-overfolow">
-                        <i class="rbt-icon feather-arrow-right"></i>
-                        <i class="rbt-icon-top feather-arrow-right"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
-    <!-- Start Blog Style -->
-    <div class="rbt-rbt-blog-area rbt-section-gapTop bg-gradient-8 rbt-round-bottom-shape">
-        <div class="wrapper pb--50 rbt-index-upper">
-            <div class="container">
-                <div class="row g-5 align-items-end mb--60">
-                    <div class="col-lg-6 col-md-12 col-12">
-                        <div class="section-title text-start">
-                            <h2 class="title color-white">Les dernières avctualités</h2>
-                          {{--   <p class="description color-white-off mt--20">Learning communicate to global world and build a bright future and career development, increase your skill with our histudy.</p>
-                --}}         </div>
-                    </div>
-                    <div class="col-lg-6 col-md-12 col-12">
-                        <div class="load-more-btn text-start text-lg-end">
-                            <a class="rbt-btn btn-border icon-hover radius-round color-white-off" href="{{ url('blog') }}">
-                                <span class="btn-text">Voir tout</span>
-                                <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Start Card Area -->
-                <div class="row g-5">
-                    <!-- Start Single Card  -->
-                    @if ($posts->isEmpty())
-                    <div class="alert alert-info">
-                        <p>Aucune publication n'est disponible pour le moment.</p>
-                    </div>
-                @else
-                @foreach($posts as $post)
-                <div class="col-lg-4 col-md-6 col-sm-6 col-12 mt--30" data-sal-delay="150" data-sal="slide-up" data-sal-duration="800">
-                    <div class="rbt-card variation-02 rbt-hover card-minimal">
-                        <div class="rbt-card-body">
-                            <ul class="meta-list justify-content-start mb--30">
-                                <li class="list-item">
-                                    <i class="feather-clock"></i>
-                                    <span>{{$post->created_at}}</span>
-                                </li>
-                            </ul>
-                            <h4 class="rbt-card-title"><a   href="{{ url('details-blog', ['id' => $post->id, 'slug' => Str::slug(Str::limit($post->title, 10))]) }}">{{$post->title}}</a></h4>
-                            <div class="rbt-card-bottom mt--40">
-                                <a class="transparent-button"  href="{{ url('details-blog', ['id' => $post->id, 'slug' => Str::slug(Str::limit($post->title, 10))]) }}">Voir détails<i><svg width="17" height="12" xmlns="http://www.w3.org/2000/svg"><g stroke="#27374D" fill="none" fill-rule="evenodd"><path d="M10.614 0l5.629 5.629-5.63 5.629"/><path stroke-linecap="square" d="M.663 5.572h14.594"/></g></svg></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-                @endif
-                    <!-- End Single Card  -->
-
-                 
-                </div>
-                <!-- End Card Area -->
-            </div>
-        </div>
-    </div>
-    <!-- End Blog Style -->
-    <!-- Start Newsletter Area  -->
-    <div class="rbt-newsletter-area bg-color-white rbt-section-gapBottom pt--60">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-title text-center">
-                        <h2 class="title">Vous souhaitez bénéficier d'offres spéciales <br /> et  des promotions?</h2>
-                        <form action="#" class="newsletter-form-1 mt--50 radius-round">
-                            <input class="rbt-border" type="email" placeholder="Enter Your E-Email">
-                            <button type="submit" class="rbt-btn btn-md btn-gradient hover-icon-reverse radius-round">
-                                <span class="icon-reverse-wrapper">
-                <span class="btn-text">Subscribe</span>
-                                <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                                <span class="btn-icon"><i class="feather-arrow-right"></i></span>
-                                </span>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-     <!-- End Newsletter Area  -->
-
+                            {{-- <div id="views-{{ $latestVideo->id }}" class=" items" style="background-image: url('{{ Storage::url($latestVideo->image) }}'); background-size: 150%;  background-position: center; padding: 0;width: 400px; height: 300px;">
    
-   
-</main>
+                <a id="views-{{ $latestVideo->id }}" onclick="playVideoInSmallPlayer('{{ Storage::url($latestVideo->video) }}')">
+                  
+                    <div class="stadium" id="views-{{ $latestVideo->id }}">{{ $latestVideo->titre }}
+                    </div>
+                    <div class="teams">
+                        <div class="logo">
+                            <img  id="views-{{ $latestVideo->id }}" class="size-80"  alt="">
+                            <div class="name"></div>
+                        </div>
+                        <div class="score"></div>
+                        <div class="logo">
+                            <img  id="views-{{ $latestVideo->id }}"class="size-80" alt="">
+                            <div class="name"></div>
+                        </div>
+                    </div>
+                </a>
+            </div> --}}
+                        @endforeach
+
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <style>
+                .rs-counter.bg5 {
+                    background-image: url('/assets/counter/1.png');
+                    background-size: cover;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    margin-top: -30px;
+                    /* Réduction de l'espace avec le header */
+                    padding-top: 50px;
+                    padding-bottom: 30px;
+                }
+            </style>
+
+            <div class="rs-counter bg5 style1 pt-103 pb-92 md-pt-80 md-pb-70 sm-pt-73">
+                <div class="container">
+                    <div class="rs-count">
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-6 md-mb-30">
+                                <div class="rs-counter-list text-center">
+                                    <h2 class="counter-number primary-color">{{ $config->coach }}</h2>
+                                    <h3 class="counter-text uppercase white-color"> Coachs</h3>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-6 md-mb-30">
+                                <div class="rs-counter-list text-center">
+                                    <h2 class="counter-number primary-color">{{ $config->seance }}</h2>
+                                    <h3 class="counter-text uppercase white-color">Séances</h3>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-6">
+                                <div class="rs-counter-list text-center">
+                                    <h2 class="counter-number primary-color">{{ $config->adherent }}</h2>
+                                    <h3 class="counter-text uppercase white-color">Adhérents</h3>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3 col-md-6 col-sm-6 col-6">
+                                <div class="rs-counter-list text-center">
+                                    <h2 class="counter-number primary-color">{{ $config->tounoir }}</h2>
+                                    <h3 class="counter-text uppercase white-color">Tounoirs</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Counter Section End -->
+
+
+            <!-- Team Pyaler Section Start -->
+            <div class="rs-team style1 nav-style pt-92 pb-100 md-pt-72 md-pb-80">
+                <div class="container">
+                    <div class="title-style text-center mb-50 md-mb-30">
+                        <h2 class="margin-0 uppercase">Le coachs</h2>
+                        <span class="line-bg y-b pt-10"></span>
+                    </div>
+                    <div class="rs-carousel owl-carousel" data-loop="true" data-items="3" data-margin="30"
+                        data-autoplay="true" data-autoplay-timeout="8000" data-smart-speed="2000" data-dots="false"
+                        data-nav="true" data-nav-speed="false" data-mobile-device="1" data-mobile-device-nav="false"
+                        data-mobile-device-dots="false" data-ipad-device="2" data-ipad-device-nav="false"
+                        data-ipad-device-dots="false" data-ipad-device2="2" data-ipad-device-nav2="false"
+                        data-ipad-device-dots2="false" data-md-device="3" data-md-device-nav="true"
+                        data-md-device-dots="false">
+
+                        @foreach ($coachs as $coach)
+                            @if ($coachs)
+                                <div class="player-item">
+                                    {{--    <div class="player-img">
+                        <img src="{{ Storage::url($coach->photo ?? ' ')  }}"  height="300" width="250" alt="">
+                    </div> --}}
+                                    <div class="player-img" style="width: 400px; height: 500px; overflow: hidden;">
+                                        <img src="{{ $coach->photo ? Storage::url($coach->photo) : asset('images/default-avatar.png') }}"
+                                            style="width: 100%; height: 100%; object-fit: cover;" alt="Photo du coach">
+                                    </div>
+
+                                    <div class="detail-wrap">
+                                        <div class="person-details">
+                                            <h3 class="player-title"><span class="squad-numbers"></span>
+                                                <a href="#">{{ $coach->nom }} {{ $coach->prenom }}</a>
+                                                <span class="player-position">Coach</span>
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- Team Pyaler Section End -->
+
+            <div class="rs-gallery style1 pt-92 pb-100 md-pt-72 md-pb-80">
+                <div class="container">
+                    <div class="title-style text-center mb-50 md-mb-30">
+                        <h2 class="margin-0 uppercase">Notre gallerie</h2>
+                        <span class="line-bg y-b pt-10"></span>
+                    </div>
+                    <div class="row pl-15 pr-15">
+                        @foreach ($images as $image)
+                            <div class="col-lg-4 col-md-6 padding-0 sm-mb-30">
+                                <div class="gallery-grid"
+                                    style="background-image: url('{{ Storage::url($image->image) }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+                                    <a class="image-popup view-btn" href="{{ Storage::url($image->image) }}">
+                                        <i class="flaticon-add-circular-button"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <style>
+                                .gallery-grid {
+                                    position: relative;
+                                    overflow: hidden;
+                                    height: 250px;
+                                    /* Vous pouvez ajuster cette hauteur selon vos besoins */
+                                }
+
+                                .view-btn {
+                                    position: absolute;
+                                    top: 50%;
+                                    left: 50%;
+                                    transform: translate(-50%, -50%);
+                                    color: white;
+                                    font-size: 2px;
+                                    /*  background-color: rgba(0, 0, 0, 0.6); */
+                                    padding: 10px;
+                                    border-radius: 50%;
+                                    display: none;
+                                }
+
+                                .gallery-grid:hover .view-btn {
+                                    display: block;
+                                }
+                            </style>
+                        @endforeach
+
+
+
+
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="rs-sponsor pb-35 md-pb-60 sm-pb-50">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 offset-lg-2 col-md-8 offset-md-2">
+                            <div class="row">
+                                @foreach ($sponsors as $sponsor)
+                                    @if ($sponsors)
+                                        <div class="col-lg-3 col-md-4 col-6">
+                                            <div class="logos">
+                                                <a href="#"><img src="{{ Storage::url($sponsor->image) }}"
+                                                        alt=""></a>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Sponsor Logo Section End -->
+
+    </main>
 
 
 @endsection

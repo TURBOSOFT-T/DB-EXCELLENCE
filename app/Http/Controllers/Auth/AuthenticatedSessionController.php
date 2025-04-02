@@ -4,10 +4,28 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Models\User;
+
+use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
+
+use Illuminate\Support\Facades\DB;
+
+use Illuminate\Support\Facades\Mail;
+use Validator;
+use Guzzle\Http\Message\Response;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Validation\ValidationException;
+
+use JsonException;
+
+
 
 class AuthenticatedSessionController extends Controller
 {
@@ -19,18 +37,77 @@ class AuthenticatedSessionController extends Controller
         return view('auth.login');
     }
 
+    public function store(Request $request)
+    {
+        // Validate the incoming request data
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+            'password' => 'required|string',
+        ],[
+            'email.required' => 'Veuillez entrer votre email',
+            'email.email' => 'Veuillez entrer un email valide',
+            'email.exists' => 'Cet email n\'existe pas',
+            'password.string' => 'Veuillez entrer votre mot de passe',
+            'password.required' => 'Veuillez entrer votre mot de passe',
+        ]);
+    
+    
+         // Vérifiez si l'utilisateur existe
+  
+     
+        // Attempt to authenticate the user
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+            if (!$user) {
+                return response()->json(['message' => 'Utilisateur non trouvé'], 404);
+            }
+            
+            if ($user->role == "user") {
+                return redirect()->route('home');
+            } 
+                else {
+                    Auth::login($user);
+                
+                    return redirect()->route('dashboard');
+            }
+        }
+    
+        
+        return redirect("login")->withErrors('Vérifiez que votre email et mot de passe sont corrects.');
+    }
+
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store1(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        $this->validate([
+            'email' => 'required|email|exists:users,email',
+            'password' => 'string|required',
+        ],[
+            'email.required' => 'Veuillez entrer votre email',
+            'email.email' => 'Veuillez entrer un email valide',
+            'email.exists' => 'Cet email n\'existe pas',
+            'password.string' => 'Veuillez entrer votre mot de passe',
+            'password.required' => 'Veuillez entrer votre mot de passe',
+        ]);
 
-        $request->session()->regenerate();
+        $user = User::where('email', $this->email)
+        ->first();
+     
+        $credentials = $request->only('email', 'password');
+        if (Auth::attempt($credentials )) {
+  
 
-       // return redirect()->intended(route('dashboard', absolute: false));
-       // return redirect()->route('dashboard');
-        return redirect('/');
+            if ($user->role == "user") {
+            return redirect()->route('home');
+            }
+        }
+    
+        return redirect("login")->withSuccess('Verifiez que  votre mail et mot de passe  sont corrects');
+
+       
     }
 
     /**

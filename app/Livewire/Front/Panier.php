@@ -2,93 +2,51 @@
 
 namespace App\Livewire\Front;
 
-use App\Models\Product;
-
+use App\Models\produits;
 use Livewire\Component;
 
 class Panier extends Component
 {
     public $total =0;
 
-  //  public $paniers = [];
-
-    public function mount()
-    {
-        // Récupérer les produits dans le panier à partir de la session
-     //   $this->paniers = session()->get('cart', []);
-    }
-
-
-    public function updateQuantity($productId, $quantity)
-    {
-
-        $paniers = [];
-        // Valider la quantité
-        if ($quantity <= 0) {
-            session()->flash('error', 'La quantité doit être supérieure à zéro.');
-            return;
-        }
-
-        // Mettre à jour la quantité dans la session
-        if (isset($this->paniers[$productId])) {
-            $this->paniers[$productId]['quantity'] = $quantity;
-
-            session()->put('cart', $this->paniers); // Sauvegarder dans la session
-        }
-
-        // Optionnel : Actualiser la page ou le panier
-      //  $this->emit('cartUpdated'); // Émettre un événement si nécessaire
-    }
-
     public function render()
-{
-    // Récupérer le panier de la session
-    $paniers_session = session('cart', []);
-
-    // Vérifier que $paniers_session est bien un tableau
-    if (!is_array($paniers_session)) {
-        $paniers_session = [];
-    }
-
-    $paniers = [];
-
-    // Boucler uniquement si $paniers_session est un tableau valide
-    foreach ($paniers_session as $session) {
-        $produit = Product::find($session['product_id']);
-        if ($produit) {
-            $paniers[] = [
-                'name' => $produit->name,
-                'product_id' => $produit->id,
-
-                'image' => $produit->image,
-                'quantity' => $session['quantity'],
-                'price' => $produit->price,
-                'total' => $session['quantity'] * $produit->price,
-            ];
-            $this->total += $session['quantity'] * $produit->price;
-        } else {
-            // Supprimer l'élément du panier s'il n'existe plus
-            $this->delete($session['product_id']);
+    {
+        $paniers_session = session('cart');
+        $paniers = [];
+        
+        foreach ($paniers_session as $session){
+            $produit = produits::find($session['id_produit']);
+            if($produit){
+                $paniers[]=[
+                    'nom' => $produit->nom,
+                    'id_produit' => $produit->id,
+                    'photo' => $produit->photo,
+                    'quantite' => $session['quantite'],
+                    'prix' => $produit->prix,
+                    'total' => $session['quantite'] * $produit->prix,
+                ];
+                $this->total += $session['quantite'] * $produit->prix;
+              // $total  += $paniers['quantite'] * $produit->prix;
+              //  dd($paniers);
+              
+            }else{
+                $this->delete($session['id_produit']);
+            }
         }
+
+        return view('livewire.front.panier', compact("paniers"));
     }
 
-  //  dd($paniers_session);
 
 
-    return view('livewire.front.panier', compact("paniers"));
-}
-
-
-
-
-    public function update($product_id,$quantity){
+    public function update($id_produit,$quantite){
         //find produit in session car and update quantity
         $panier = session('cart', []);
         $produit_existe = false;
 
         foreach ($panier as &$item) {
-            if ($item['product_id'] == $product_id) {
-                $item['quantity'] = $quantity;
+            if ($item['id_produit'] == $id_produit) {
+                $item['quantite'] = $quantite;
                 $produit_existe = true;
                 break;
             }
@@ -96,8 +54,8 @@ class Panier extends Component
 
         if (!$produit_existe) {
             $panier[] = [
-                'product_id' => $product_id,
-                'quantity' => $quantity,
+                'id_produit' => $id_produit,
+                'quantite' => $quantite,
             ];
         }
 
@@ -110,13 +68,13 @@ class Panier extends Component
 
 
 
-    public function delete($product_id){
+    public function delete($id_produit){
         //delete produit from cart
         $panier = session('cart', []);
         $produit_existe = false;
 
         foreach ($panier as $key => &$item) {
-            if ($item['product_id'] == $product_id) {
+            if ($item['id_produit'] == $id_produit) {
                 unset($panier[$key]);
                 $produit_existe = true;
                 break;
@@ -125,8 +83,8 @@ class Panier extends Component
 
         if (!$produit_existe) {
             $panier[] = [
-                'product_id' => $product_id,
-                'quantity' => 1,
+                'id_produit' => $id_produit,
+                'quantite' => 1,
             ];
         }
 

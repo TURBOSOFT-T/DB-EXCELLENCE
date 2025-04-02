@@ -1,48 +1,51 @@
 <div>
     @if ($step == 1)
         <form wire:submit="form_1">
-            
-            <div class="tp-error-content" >
-                
-               
-
-                <h3><i class="fa fa-lock fa-4x" style="font-size:48px;color:rgb(235, 21, 46)"></i></h3>
-                <h2 class="text-center">
-                    {{ \App\Helpers\TranslationHelper::TranslateText('Mot de passe oublié') }}?
-                </h2>
-              
-                <p>
-                    {{ \App\Helpers\TranslationHelper::TranslateText('Vous pouvez changer votre mot de passe') }}.</p>
-               
-                <div class="form-group mb-6">
-                    <div class="tp-contact-input-box p-relative">
-                        <input type="email" class="form-control" id="user_login_email" name="email"
-                            placeholder="Adresse email" wire:model="email" />
-                        
-                    </div>
+            <br>
+            <br>
+            <div class="container-xxl">
+                <div class="authentication-wrapper authentication-basic container-p-y">
+                  <div class="authentication-inner py-6">
+                    <!-- Forgot Password -->
+                    <div class="card">
+                      <div class="card-body">
+                        <!-- Logo -->
                     
-                    @error('email')
-                        <span class="small text-danger"> {{ $message }} </span>
-                    @enderror
+                        <!-- /Logo -->
+                        <h4 class="mb-1">Mot de passe oublié? 🔒</h4>
+                        <p class="mb-6">Entrez votre email et nous vous enverrons des instructions pour réinitialiser votre mot de passe</p>
+                        <form id="formAuthentication" class="mb-6" action="auth-reset-password-basic.html" method="GET">
+                          <div class="mb-6">
+                            <label for="email" class="form-label">Email</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              id="email"
+                               wire:model="email"
+                              name="email"
+                              placeholder="Votre mail"
+                              autofocus />
+                          </div>
+                        {{--   <button class="btn btn-primary d-grid w-100">Envoyer le lien de réinitialisation</button> --}}
+                        <button class="btn btn-primary d-grid w-100" type="submit">
+                            <span wire:loading>
+                                <img src="/icons/kOnzy.gif" height="20" width="20" alt="" srcset="">
+                            </span>
+                            <span>Envoyer le code de verification</span>
+                        </button>
+                        </form>
+                        <div class="text-center">
+                          <a href="{{ route('login') }}" class="d-flex justify-content-center">
+                            <i class="ti ti-chevron-left scaleX-n1-rtl me-1_5"></i>
+                            Retour connexion
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- /Forgot Password -->
+                  </div>
                 </div>
-                <br>
-                <br>
-               {{--  <button class="btn -green w-20" type="submit">
-                    <span wire:loading>
-                        <img src="/icons/kOnzy.gif" height="20" width="20" alt="" srcset="">
-                    </span>
-                    <span>Envoyer le code de verification</span>
-                </button>
- --}}
-                <button type="submit" class="axil-btn btn-bg-primary2 submit-btn">
-                    <span wire:loading>
-                        <img src="https://i.gifer.com/ZKZg.gif" height="15" alt="" srcset="">
-                    </span>
-                    <i class="ri-git-repository-private-line"></i>
-                    <span>
-                        {{ \App\Helpers\TranslationHelper::TranslateText('Envoyer le code de vérification') }}
-                    </span></button>
-            </div>
+              </div>
         </form>
     @endif
 
@@ -52,11 +55,9 @@
                 <img width="100" height="100" src="https://img.icons8.com/glyph-neue/100/578b07/private2.png"
                     alt="private2" />
                 <br>
-                <h5 class="tp-section-title pb-10">
-                    {{ \App\Helpers\TranslationHelper::TranslateText('Code de sécurité') }}!</h5>
+                <h5 class="tp-section-title pb-10">Code de Sécurité !</h5>
                 <p>
-                    
-                    {{ \App\Helpers\TranslationHelper::TranslateText('Veuillez saisir le code de verification que vous avez reçu par mail') }}.
+                    Veuillez saisir le code de verification que vous avez reçu par email.
                 </p>
                 <div class="form-group mb-6">
                     <div class="tp-contact-input-box p-relative">
@@ -76,12 +77,12 @@
                     @enderror
                 </div>
                 <br>
-                <button type="submit" class="axil-btn btn-bg-primary2 submit-btn">
+                <button class="tp-btn-theme w-100" type="submit">
                     <span wire:loading>
-                        <img src="https://i.gifer.com/ZKZg.gif" height="15" alt="" srcset="">
+                        <img src="/icons/kOnzy.gif" height="20" width="20" alt="" srcset="">
                     </span>
-                    <i class="ri-git-repository-private-line"></i>
-                    <span> {{ \App\Helpers\TranslationHelper::TranslateText('Vérifier') }}</span></button>
+                    <span>Vérifier</span>
+                </button>
             </form>
         </div>
     @endif
@@ -93,16 +94,13 @@
             <form wire:submit="form_3">
                 <img width="100" height="100" src="https://img.icons8.com/external-vitaliy-gorbachev-lineal-vitaly-gorbachev/100/e6bd00/external-password-internet-security-vitaliy-gorbachev-lineal-vitaly-gorbachev.png" alt="external-password-internet-security-vitaliy-gorbachev-lineal-vitaly-gorbachev"/>
                 <br>
-                <h5 class="tp-section-title pb-10">
-                    {{ \App\Helpers\TranslationHelper::TranslateText('Nouveau mot de passe') }}
-                </h5>
+                <h5 class="tp-section-title pb-10">Nouveau mot de passe</h5>
                 <p>
-                    
-                    {{ \App\Helpers\TranslationHelper::TranslateText('Veuillez entrer votre nouveau mot de passe') }}!
+                    Veuillez entrer votre nouveau mot de passe !
                 </p>
                 <div class="form-group mb-6">
                     <div class="tp-contact-input-box p-relative">
-                        <input type="password" class="form-control" id="password" name="password"
+                        <input type="TEXT" class="form-control" id="password" name="password"
                             wire:model="password" placeholder="Mot de passe" />
                         <span class="tp-contact-icon">
                             <svg width="16" height="18" viewBox="0 0 16 18" fill="none"
@@ -118,7 +116,7 @@
                     @enderror
 
                     <div class="tp-contact-input-box p-relative">
-                        <input type="password" class="form-control" id="password_confirmation" name="password_confirmation"
+                        <input type="TEXT" class="form-control" id="password_confirmation" name="password_confirmation"
                             wire:model="password_confirmation" placeholder="Confirmation du mot de passre" />
                         <span class="tp-contact-icon">
                             <svg width="16" height="18" viewBox="0 0 16 18" fill="none"
@@ -134,27 +132,17 @@
                     @enderror
                 </div>
                 <br>
-                <button type="submit" class="axil-btn btn-bg-primary2 submit-btn">
+                <button class="tp-btn-theme w-100" type="submit">
                     <span wire:loading>
-                        <img src="https://i.gifer.com/ZKZg.gif" height="15" alt="" srcset="">
+                        <img src="/icons/kOnzy.gif" height="20" width="20" alt="" srcset="">
                     </span>
-                    <i class="ri-git-repository-private-line"></i>
                     <span>
-                        {{ \App\Helpers\TranslationHelper::TranslateText('Enregistrer') }}    
-                    </span></button>
+                        Enregistrer
+                    </span>
+                </button>
             </form>
         </div>
     @endif
 
 
-    <style>
-        .btn-bg-primary2 {
-            background-color: #5EA13C;
-            color: #ffffff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-        }
-    </style>
 </div>

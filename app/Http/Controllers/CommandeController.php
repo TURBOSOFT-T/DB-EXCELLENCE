@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Http\Requests\commandes\CommandesRequest;
 use Illuminate\Http\Request;
-use App\Models\{commandes, produits,Coupon, contenu_commande, config, notifications,Country, Order, Product, Setting, User};
+use App\Models\{commandes, produits, contenu_commande, config, notifications, User};
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
@@ -23,10 +23,6 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Contracts\Mail\Mailable;
 use App\Services\PayUService\Exception;
 use Illuminate\Validation\ValidationException;
-use Stripe\Charge;
-use Stripe\Stripe;
-
-use Cart;
 
 use App\Http\Traits\ListGouvernorats ;
 
@@ -35,7 +31,7 @@ class CommandeController extends Controller
 {
 
   public $cart;
-
+  use ListGouvernorats;
 
 
  /*  public function __construct()
@@ -47,15 +43,8 @@ class CommandeController extends Controller
 
   public function commander()
   {
-    $configs = Setting::firstOrFail();
-   // $paniers_session = session('cart');
-
-   $paniers_session = session('cart', []);
-
-  // Vérifier que $paniers_session est bien un tableau
-  if (!is_array($paniers_session)) {
-      $paniers_session = [];
-  }
+    $configs = config::firstOrFail();
+    $paniers_session = session('cart');
     $paniers = [];
     $total = 0;
     if(empty($paniers_session)){
@@ -63,31 +52,25 @@ class CommandeController extends Controller
       return back();
   }
 
-    
-
-
     foreach ($paniers_session as $session) {
-      $produit = Product::find($session['product_id']);
+      $produit = produits::find($session['id_produit']);
       if ($produit) {
         $paniers[] = [
-          'name' => $produit->name,
-          'product_id' => $produit->id,
-          'image' => $produit->image,
-          'quantity' => $session['quantity'],
-          'price' => $produit->price,
-          'total' => $session['quantity'] * $produit->price,
+          'nom' => $produit->nom,
+          'id_produit' => $produit->id,
+          'photo' => $produit->photo,
+          'quantite' => $session['quantite'],
+          'prix' => $produit->prix,
+          'total' => $session['quantite'] * $produit->prix,
         ];
-   
-        $total += $session['quantity'] * $produit->price;
-        
-       
-     //  dd($total);
+        $total += $session['quantite'] * $produit->prix;
+       //dd($total);
       }
     }
    
-   $countries = Country::select("id", "name")->get();
+   $gouvernorats = $this->getListGouvernorat();
 
-    return view('front.commandes.checkout', compact('configs', 'paniers', 'total' ,'countries'));
+    return view('front.commandes.checkout', compact('configs', 'paniers', 'total','gouvernorats'));
   }
 
 
@@ -103,27 +86,23 @@ class CommandeController extends Controller
       'nom' => ['nullable', 'string', 'max:255'],
       'prenom' => ['nullable', 'string', 'max:255'],
       'email' => 'required',
-      'coupon'=>'nullable|numeric',
-   
+      //  'adresse' => 'required',
      
         'phone' => 'required',
-    
+    // 'frais' => 'required',
 
     ]); 
-   // dd($request->all());
+
 
     $connecte = Auth::user();
-    $configs = Setting::firstOrFail();
-
-    $total = 0;
-    
- 
+    $configs = config::firstOrFail();
 
 
-//dd($discuont);
+  
+
 if($connecte){
 
-  $order = new Order([
+  $order = new commandes([
 
     'user_id' => auth()->user()->id,
      'nom' => $request->input('nom'),
@@ -135,15 +114,6 @@ if($connecte){
      'note' => $request->input('note'),
      'frais' => $configs->frais ?? 0,
      'gouvernorat' => $request->input('gouvernorat'),
-     'coupon' => isset(session('coupon')['value']) ? session('coupon')['value'] : null,
-//'coupon' => session('coupon')['value'],
-    // 'total' => $total,
-   //  'value'=> $value,
-
-    
-    
-
-    
 
    ]);[
      'email.required' => 'Veuillez entrer votre email',
@@ -154,7 +124,7 @@ if($connecte){
    ];
 } else{
 
-  $order = new Order([
+  $order = new commandes([
 
   ///  'user_id' => auth()->user()->id,
      'nom' => $request->input('nom'),
@@ -166,11 +136,6 @@ if($connecte){
      'note' => $request->input('note'),
      'frais' => $configs->frais ?? 0,
      'gouvernorat' => $request->input('gouvernorat'),
-  //   'coupon' => session('coupon')['value'],
-  'coupon' => isset(session('coupon')['value']) ? session('coupon')['value'] : null,
-
-    // 'total' => $total,
-    // 'value'=> $value,
 
    ]);[
      'email.required' => 'Veuillez entrer votre email',
@@ -180,7 +145,7 @@ if($connecte){
 
    ];
 }
-
+  
 
     $order->save();
 
@@ -200,8 +165,8 @@ if($connecte){
 
   if (!$existingUsersWithEmail) {
    
-   // Mail::to($user->email)->send(new FirstOrder($user));
-
+    Mail::to($user->email)->send(new FirstOrder($user));
+   //$this->sendOrderConfirmationMail($order);
  
     $user->save();
 }
@@ -209,24 +174,37 @@ if($connecte){
     $paniers_session = Session::get('cart') ?? [];
     $total = 0;
 
-   
+    foreach ($paniers_session as $session) {
+      $produit = produits::find($session['id_produit']);
+      if ($produit) {
+
+        $items=   contenu_commande::create([
+          'id_commande' => $order->id,
+          'id_produit' => $produit->id,
+          'prix_unitaire' => $produit->prix,
+          'quantite' => $session['quantite'],
+        ]);
+
+
+        $produit->diminuer_stock($session['quantite']);
+      }
+    }
+
     //envoyer les emails
-     // $this->sendOrderConfirmationMail($order);
+      $this->sendOrderConfirmationMail($order);
      
     //effacer le panier
    session()->forget('cart');
-   session()->forget('coupon');
 
     //generate notification
-  //  $notification = new notifications();
+    $notification = new notifications();
    // $notification->url = "admin/commande" . $order->id;
- //  $notification->url = route('details_commande', ['id' => $order->id]);
-  //  $notification->titre = "Nouvelle commande.";
-  // $notification->message = "Commande passée par " . $order->nom;
-  //  $notification->type = "commande";
-  //  $notification->save();
-
-
+   $notification->url = route('details_commande', ['id' => $order->id]);
+    $notification->titre = "Nouvelle commande.";
+   $notification->message = "Commande passée par " . $order->nom;
+    $notification->type = "commande";
+    $notification->save();
+   
 
     return redirect()->route('thank-you');
   }
@@ -238,7 +216,7 @@ if($connecte){
   public function sendOrderConfirmationMail($order)
   {
    
-    //  Mail::to($order->email)->send(new OrderMail($order));
+      Mail::to($order->email)->send(new OrderMail($order));
    
   }
 

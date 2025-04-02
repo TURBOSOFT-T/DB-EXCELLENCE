@@ -4,24 +4,19 @@ namespace App\Livewire\Front;
 
 use App\Models\Contact;
 use Livewire\Component;
-
-use App\Models\notifications;
-
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Notification;
-use RealRashid\SweetAlert\Facades\Alert;
-//use Illuminate\Support\Facade\Mail;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Hash;
+use GuzzleHttp\Client;
 
 class ContactForm extends Component
 {
 
     public $nom = '';
+    public $telephone = '';
     public $email = '';
    public $sujet ='';
     public $message = '';
-    public $telephone = '';
+    public $age = '';
+   // public $errors = [];
+    public $gender = 'MALE';
 
 
 
@@ -33,13 +28,16 @@ class ContactForm extends Component
             'nom' => 'required|max:200|string',
             'sujet' => 'required|max:200|string',
             'message' => 'required|max:5000|string',
-            'telephone' => 'nullable|numeric',
+            'telephone' => 'required|numeric',
+            'age' => 'required|max:200',
+            'gender' => 'nullable',
           
         ], [
             'email.required' => 'Veuillez entrer votre email',
             'nom.required' => 'Veuillez entrer votre nom',
             'sujet.required' => 'Veuillez entrer votre sujet',
             'message.required' => 'Veuillez entrer votre message',
+         
           
         ]);
 
@@ -49,38 +47,63 @@ class ContactForm extends Component
         $contact->sujet = $this->sujet;
         $contact->message = $this->message;
         $contact->telephone = $this->telephone;
+        $contact->age = $this->age;
+        $contact->gender = $this->gender;
    
 
         if ($contact->save()) {
           
-            
-       $notification = new notifications();
-    
-       // $notification->url = route('details_comm', ['id' => $message->id]);
-         $notification->titre = "Nouveau message.";
-        $notification->message = "Envoyé passée par " . $contact->nom;
-         $notification->type = "message";
-         $notification->save();
-       
            
           
-            $this->reset(
-                [
-                    'email',
-                    'nom',
-                    'sujet',
-                    'message',
-                
-                ]
-            );
-            session()->flash('success', 'Votre message a été envoyé avec succès');
-            return redirect()->back();
-        } else {
-            session()->flash('error', 'Une erreur est survenue lors de l\'envoi de votre message');
-            return;
+            if ($contact->save()) {
+                // Préparation des données pour l'API externe
+                $data = [
+                    'email' => $this->email,
+                    'firstName' => $this->nom, 
+                    'lastName' => $this->sujet, 
+                    'phone' => $this->telephone, 
+                    'observation' => $this->message, 
+                    'gender' =>  'MALE',
+                ];
+        
+                try {
+                    
+                    $client = new Client();
+                    $response = $client->post('https://api.sportdivers.tn/api/pre-registrations', [ 
+                        'json' => $data,
+                        'headers' => [
+                            'Accept' => 'application/json',
+                          //  'Authorization' => 'Bearer VOTRE_JETON_API', 
+                        ],
+                    ]);
+        
+                   
+                    if ($response->getStatusCode() == 201) {
+                        $this->reset([
+                            'email',
+                            'nom',
+                            'sujet',
+                            'message',
+                            'telephone',
+                            'age',
+                         //   'gender',
+
+                        ]);
+                        session()->flash('success', 'Votre message a été envoyé avec succès à l\'API externe');
+                    } else {
+                        session()->flash('error', 'Le message a été sauvegardé, mais une erreur est survenue lors de l\'envoi à l\'API');
+                    }
+                } catch (\Exception $e) {
+                    session()->flash('error', 'Une erreur est survenue lors de l\'envoi des données à l\'API : ' . $e->getMessage());
+                }
+        
+                return redirect()->back();
+            } else {
+                session()->flash('error', 'Une erreur est survenue lors de l\'envoi de votre message');
+                return;
+            }
         }
     }
-
     
     public function render()
     {
