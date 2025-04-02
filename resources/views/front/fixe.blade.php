@@ -294,7 +294,8 @@
                     <div class="row rs-vertical-middle">
                         <div class="col-md-7">
                             <div class="copyright">
-                                <p> (C){{ date('Y') }} Belle. All Rights Reserved. Designed by <a
+                                <p> (C){{ date('Y') }} Belle                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 gd4    6
+                                    . All Rights Reserved. Designed by <a
                                         href="#" target="_blank"
                                         style="color: #10e750;">TURBOSOFT</a></p>
                             </div>

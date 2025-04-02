@@ -35,30 +35,31 @@
 
 <div id="rs-slider" class="rs-slider home-slider slider-navigation">
 
-    <div class="slider-carousel owl-carousel">
-        @foreach ($banners as $banner)
-        <div class="single-slider slide2"
-            style="background-image: url('{{ Storage::url($banner->image) }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
-            <div class="container">
-                <div class="image-part common">
-                    {{-- <div class="image-wrap">
-                        <img class="player animate5" src="{{ Storage::url($banner->image) }}" alt="">
-                        <img class="ball animate6" src="{{ Storage::url($banner->image) }}" alt="">
-                    </div> --}}
-                </div>
-                <div class="text-part common">
-                    <h2 class="sub-title"> {{ $banner->titre ?? '' }}</h2>
-                    <h1 class="title"><span class="primary-color">Sport</span> Divers</h1>
-                    <div class="desc"> <br> {{ $banner->sous_titre ?? '' }}</div>
-                    <div class="slider-btn">
-                        <a class="readon" href="{{ route('contact') }}">Contactez nous</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        @endforeach
+    <div class="slider ">
+       @foreach ($banners as $banner)
+       <div class="single-slider slide2"
+           style="background-image: url('{{ Storage::url($banner->image) }}'); background-size: cover; background-position: center; background-repeat: no-repeat;">
+           <div class="container">
+               <div class="image-part common">
+                 
+               </div>
+             
+               <h2 class="title"><span class="primary-color"></span> {{ $banner->titre ?? '' }}</h>
+               <br>
+               <div class="desc"> <br> {{ $banner->sous_titre ?? '' }}</div>
+               <br><br>
+               <div class="text-part common">
+              
+               </div>
 
-    </div>
+               <div class="slider-btn contact text-center">
+                   <a class="readon" href="{{ route('contact') }}">Contactez nous</a>
+               </div>
+           </div>
+       </div>
+       @endforeach
+
+   </div>
 </div>
      {{-- 
      <div id="rs-banner" class="rs-banner home5banner">
