@@ -578,12 +578,11 @@
                                     <li>
                                         <div class="dropdown-divider my-1 mx-n2"></div>
                                     </li>
-                                    <li>
-                                        <a class="dropdown-item" href="pages-profile-user.html">
-                                            <i class="ti ti-user me-3 ti-md"></i><span class="align-middle">My
-                                                Profile</span>
-                                        </a>
-                                    </li>
+                                    <a class="dropdown-item {{ request()->routeIs('home') ? 'active' : '' }}"
+                                        href="{{ route('home') }}">
+                                        <i class="ti ti-home me-3 ti-md"></i>
+                                        <span>Accueil</span>
+                                    </a>
                                     <li>
                                         <a class="dropdown-item"href="{{ route('parametres') }}">
                                             <i class="ti ti-settings me-3 ti-md"></i><span
