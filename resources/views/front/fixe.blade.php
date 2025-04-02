@@ -11,7 +11,7 @@
     <head>
         <!-- meta tag -->
         <meta charset="utf-8">
-        <title> @yield('titre') - Sport Divers</title>
+        <title> @yield('titre') - BELLE</title>
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="description" content="">
         <!-- responsive tag -->
