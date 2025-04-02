@@ -261,7 +261,7 @@
                             <li class="mb-2"><a href="{{ route('home') }}" target="_blank"
                                     class="footer-link">Accueil</a></li>
                             <li class="mb-2"><a href="{{ route('evenements') }}" target="_blank"
-                                    class="footer-link">>Evènements</a></li>
+                                    class="footer-link">Evènements</a></li>
                             <li class="mb-2"><a href="{{ route('contact') }}" target="_blank"
                                     class="footer-link">Contact</a></li>
                         </ul>
@@ -294,9 +294,9 @@
                     <div class="row rs-vertical-middle">
                         <div class="col-md-7">
                             <div class="copyright">
-                                <p>© 2024 Sport Divers. All Rights Reserved. Designed by <a
-                                        href="https://www.e-build.tn" target="_blank"
-                                        style="color: #c71f17;">E-build</a></p>
+                                <p> (C){{ date('Y') }} Sport Divers. All Rights Reserved. Designed by <a
+                                        href="#" target="_blank"
+                                        style="color: #10e750;">TURBOSOFT</a></p>
                             </div>
                         </div>
                         <div class="col-md-5">
