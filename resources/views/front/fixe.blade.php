@@ -19,8 +19,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- favicon -->
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
-        <link rel="shortcut icon" type="image/x-icon" href="images/fav.png">
-        <!-- bootstrap v4 css -->
+        <link rel="shortcut icon" type="image/x-icon"  href="{{ Storage::url($config->icon) }}">
+         <!-- bootstrap v4 css -->
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <!-- font-awesome css -->
         <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
@@ -62,14 +62,14 @@
 
 <body>
     <!--Preloader area start here-->
-    <div id="loading" class="loading">
+{{--     <div id="loading" class="loading">
         <div class="rs-loader">
             <div class="rs-shadow"></div>
             <div class="rs-gravity">
                 <div class="rs-ball"></div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!--Preloader area End here-->
 
     <!--Full width header Start-->

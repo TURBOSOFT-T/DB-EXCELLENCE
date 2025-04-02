@@ -660,10 +660,10 @@
                                 class="footer-container d-flex align-items-center justify-content-between py-4 flex-md-row flex-column">
                                 <div class="text-body">
                                     <p class="mb-0">@ {{ date('Y') }} | Developed By :
-                                        <a href="https://www.e-build.tn" target="_blank"
-                                            style="color: #c71f17 !important;">
+                                        <a href="#" target="_blank"
+                                            style="color: #20ee0d !important;">
                                             <strong>
-                                                E-Build
+                                                TURBOSOFT
                                             </strong>
                                         </a>
                                     </p>
