@@ -22,6 +22,9 @@ use App\Http\Controllers\Front\{
 };
 use App\Http\Controllers\panier_client;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\FormationController;
+use App\Http\Controllers\InscriptionController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -136,6 +139,26 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/admin/category/{id}/update', [AdminController::class, 'categories_update'])
         ->name('categories.update')
         ->middleware('permission:category_edit');
+
+
+                ////////////////Formations////////////////
+                Route::get('/admin/formations', [AdminController::class, 'formations'])
+                ->name('formations');
+            Route::get('/admin/formation/add', [AdminController::class, 'formation_add']);
+            Route::get('/admin/formation/{id}/update', [AdminController::class, 'formation_update']);
+            route::resource('deleteformation', FormationController::class);
+            route::resource('updateformation', FormationController::class);
+        
+            Route::get('/admin/formation_update/{id}', [ FormationController::class, 'formation_update'])
+            ->name('formation.update');
+        
+            Route::get('/admin/inscriptions', [AdminController::class, 'inscriptions'])
+            ->name('list_inscriptions');
+           // Route::get('/admin/inscription/{id}/delete', [AdminController::class, 'inscription_delete']);
+            Route::delete('/admin/deleteinscriptions/{id}', [InscriptionController::class, 'destroy'])->name('inscriptions.destroy');
+            route::resource('deleteinscription', InscriptionController::class);
+            //Route::get('/admin/formation/{id}/delete', [AdminController::class, 'formation_delete']);
+        
 
 
     ///////////////Les services/////////////////////////////////

@@ -16,7 +16,7 @@
                 <img
                                 src="{{ Storage::url($config->logo) }}" alt="Logo" height="80" width="80" />
              
-                <span class="app-brand-text demo text-heading fw-bold">Sport Divers</span>
+                <span class="app-brand-text demo text-heading fw-bold">Belle</span>
               </a>
             </div>
             <!-- /Logo -->

@@ -182,26 +182,26 @@
                 
                
                 <div class="col-md-3">
-                    <label class="form-label" for="multicol-first-name">Nombre de  coachs</label>
+                    <label class="form-label" for="multicol-first-name">Nombre de  formateurs</label>
                     <input type="text"wire:model="coach" id="multicol-last-name" class="form-control"
-                        placeholder="Coachs" />
+                        placeholder="Formateurs" />
                     @error('coach')
                         <span class="text-danger small"> {{ $message }} </span>
                     @enderror
                 </div>
 
                 <div class="col-md-3">
-                    <label class="form-label" for="multicol-first-name">Tounoirs</label>
+                    <label class="form-label" for="multicol-first-name">Formations</label>
                     <input type="text"wire:model="tounoir" id="multicol-last-name" class="form-control"
-                        placeholder="Tounoir" />
+                        placeholder="Formations" />
                     @error('tounoir')
                         <span class="text-danger small"> {{ $message }} </span>
                     @enderror
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label" for="multicol-first-name">Scéances</label>
+                    <label class="form-label" for="multicol-first-name">Evènements</label>
                     <input type="text"wire:model="seance" id="multicol-last-name" class="form-control"
-                        placeholder="Scéance" />
+                        placeholder="Evènements" />
                     @error('seance')
                         <span class="text-danger small"> {{ $message }} </span>
                     @enderror

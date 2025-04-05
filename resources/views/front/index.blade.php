@@ -452,14 +452,14 @@
                             <div class="col-lg-3 col-md-6 col-sm-6 col-6 md-mb-30">
                                 <div class="rs-counter-list text-center">
                                     <h2 class="counter-number primary-color">{{ $config->coach }}</h2>
-                                    <h3 class="counter-text uppercase white-color"> Coachs</h3>
+                                    <h3 class="counter-text uppercase white-color"> Formateurs</h3>
                                 </div>
                             </div>
 
                             <div class="col-lg-3 col-md-6 col-sm-6 col-6 md-mb-30">
                                 <div class="rs-counter-list text-center">
                                     <h2 class="counter-number primary-color">{{ $config->seance }}</h2>
-                                    <h3 class="counter-text uppercase white-color">Séances</h3>
+                                    <h3 class="counter-text uppercase white-color">Evènements</h3>
                                 </div>
                             </div>
 
@@ -473,7 +473,7 @@
                             <div class="col-lg-3 col-md-6 col-sm-6 col-6">
                                 <div class="rs-counter-list text-center">
                                     <h2 class="counter-number primary-color">{{ $config->tounoir }}</h2>
-                                    <h3 class="counter-text uppercase white-color">Tounoirs</h3>
+                                    <h3 class="counter-text uppercase white-color">Formations</h3>
                                 </div>
                             </div>
                         </div>
@@ -482,50 +482,6 @@
             </div>
             <!-- Counter Section End -->
 
-
-            <!-- Team Pyaler Section Start -->
-            <div class="rs-team style1 nav-style pt-92 pb-100 md-pt-72 md-pb-80">
-                <div class="container">
-                    <div class="title-style text-center mb-50 md-mb-30">
-                        <h2 class="margin-0 uppercase">Le coachs</h2>
-                        <span class="line-bg y-b pt-10"></span>
-                    </div>
-                    <div class="rs-carousel owl-carousel" data-loop="true" data-items="3" data-margin="30"
-                        data-autoplay="true" data-autoplay-timeout="8000" data-smart-speed="2000" data-dots="false"
-                        data-nav="true" data-nav-speed="false" data-mobile-device="1" data-mobile-device-nav="false"
-                        data-mobile-device-dots="false" data-ipad-device="2" data-ipad-device-nav="false"
-                        data-ipad-device-dots="false" data-ipad-device2="2" data-ipad-device-nav2="false"
-                        data-ipad-device-dots2="false" data-md-device="3" data-md-device-nav="true"
-                        data-md-device-dots="false">
-
-                        @foreach ($coachs as $coach)
-                            @if ($coachs)
-                                <div class="player-item">
-                                    {{--    <div class="player-img">
-                        <img src="{{ Storage::url($coach->photo ?? ' ')  }}"  height="300" width="250" alt="">
-                    </div> --}}
-                                    <div class="player-img" style="width: 400px; height: 500px; overflow: hidden;">
-                                        <img src="{{ $coach->photo ? Storage::url($coach->photo) : asset('images/default-avatar.png') }}"
-                                            style="width: 100%; height: 100%; object-fit: cover;" alt="Photo du coach">
-                                    </div>
-
-                                    <div class="detail-wrap">
-                                        <div class="person-details">
-                                            <h3 class="player-title"><span class="squad-numbers"></span>
-                                                <a href="#">{{ $coach->nom }} {{ $coach->prenom }}</a>
-                                                <span class="player-position">Coach</span>
-                                            </h3>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
-                        @endforeach
-
-
-                    </div>
-                </div>
-            </div>
-            <!-- Team Pyaler Section End -->
 
             <div class="rs-gallery style1 pt-92 pb-100 md-pt-72 md-pb-80">
                 <div class="container">

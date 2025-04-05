@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\commandes;
 use App\Models\config;
 use App\Models\historiques_connexion;
-use App\Models\{produits, Category,Marque, Contact, favoris, Service};
+use App\Models\{produits, Category,Marque, Contact, favoris, Formation, Inscription, Service};
 use App\Models\User;
 use App\Models\views;
 use Illuminate\Http\Request;
@@ -196,6 +196,21 @@ class AdminController extends Controller
     }
 
 
+/////////////Formations////////////
+
+public function formations()
+{
+    // Retrieve all formations from the database
+    $formations = Formation::all();
+
+    // Pass the formations to the view for rendering
+    return view('admin.formations.list', compact('formations'));
+   // return view('admin.formations.list');
+}
+public function inscriptions(){
+    $inscriptions = Inscription::all();
+    return view('admin.formations.list-inscriptions' , compact('inscriptions'));
+}
 
 
 

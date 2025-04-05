@@ -272,10 +272,35 @@
 
                         </ul>
                     </li>
+                    <li class="menu-header small">
+                        <span class="menu-header-text" data-i18n="Formation">Formation</span>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons ti ti-book"></i> <!-- Icône Formation -->
+                            <div data-i18n="Nos formations">Nos formations</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="{{ route('formations') }}" class="menu-link">
+                                    <div data-i18n="Liste des formations">Liste des formations</div>
+                                </a>
+                            </li>
+                         
+                        </ul>
 
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a  href="{{ route('list_inscriptions') }}" class="menu-link">
+                                    <div data-i18n="Liste des inscriptions">Liste des inscriptions</div>
+                                </a>
+                            </li>
+                            
+                        </ul>
+                    </li>
+                    
 
-
-
+                 
                     <!-- Forms & Tables -->
                     <li class="menu-header small">
                         <span class="menu-header-text" data-i18n="Utilisateurs">Utilisateurs</span>
@@ -297,14 +322,14 @@
 
                         </ul>
 
-                        <ul class="menu-sub">
+                       {{--  <ul class="menu-sub">
                             <li class="menu-item">
                                 <a href="{{ route('coachs') }}" class="menu-link">
                                     <div data-i18n="Liste des coachs">Liste des coachs</div>
                                 </a>
                             </li>
 
-                        </ul>
+                        </ul> --}}
 
 
                       
