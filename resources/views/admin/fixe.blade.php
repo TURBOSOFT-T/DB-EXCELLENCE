@@ -411,8 +411,8 @@
                         <!-- /Search -->
 
                         <ul class="navbar-nav flex-row align-items-center ms-auto">
-                            <!-- Language -->
-                            <li class="nav-item dropdown-language dropdown">
+                        
+                          {{--   <li class="nav-item dropdown-language dropdown">
                                 <a class="nav-link btn btn-text-secondary btn-icon rounded-pill dropdown-toggle hide-arrow"
                                     href="javascript:void(0);" data-bs-toggle="dropdown">
                                     <i class="ti ti-language rounded-circle ti-md"></i>
@@ -438,7 +438,7 @@
                                     </li>
 
                                 </ul>
-                            </li>
+                            </li> --}}
                             <!--/ Language -->
 
                             <!-- Style Switcher -->
